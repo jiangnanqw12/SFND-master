@@ -48,6 +48,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr &viewer)
     Lidar *lidar1 = new Lidar(cars, 0);
 
     // TODO:: Create point processor
+    lidar1->scan();
 }
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
