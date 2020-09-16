@@ -1,6 +1,8 @@
 {
     "cmake.configureOnOpen": false,
     "files.associations": {
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp"
     }
 }

@@ -50,7 +50,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr &viewer)
     // TODO:: Create point processor
     pcl::PointCloud<pcl::PointXYZ>::Ptr PCxyz =
         lidar1->scan();
-    renderRays(viewer, );
+    renderRays(viewer, lidar1->position, PCxyz);
 }
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
