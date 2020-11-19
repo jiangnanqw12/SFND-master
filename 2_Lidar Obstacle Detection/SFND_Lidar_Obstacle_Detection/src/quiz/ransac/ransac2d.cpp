@@ -77,6 +77,34 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 			print(cloud->points.size());
 		}
 		float x1, x2, y1, y2;
+		auto itr = inliers.begin();
+		x1 = cloud->points[*itr].x;
+		y1 = cloud->points[*itr].y;
+		itr++;
+		x2 = cloud->points[*itr].x;
+		y2 = cloud->points[*itr].y;
+		float a, b, c;
+		a = y1 - y2;
+		b = x2 - x1;
+		c = (x1 * y2 - x2 * y1);
+		for (int index = 0; index < cloud->points.size(); index++)
+		{
+			if (inliers.count(index) > 0)
+			{
+				continue;
+			}
+			float x3 = cloud->points[index].x;
+			float y3 = cloud->points[index].y;
+			float d = abs(a * x3 + b * y3 + c) / (sqrt(pow(a, 2) + pow(b, 2)));
+			if (d <= distanceTol)
+			{
+				inliers.insert(index);
+			}
+		}
+		if (inliers.sizes() > inliersResult.sizes())
+		{
+			inliersResult = inliers;
+		}
 	}
 	return inliersResult;
 }
