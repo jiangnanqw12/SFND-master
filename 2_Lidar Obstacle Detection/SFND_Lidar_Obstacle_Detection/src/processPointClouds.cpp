@@ -101,10 +101,8 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
     typename pcl : search : KdTree<PointT>::Ptr tree(new pcl:search
                                                      : KdTree<PointT>);
     tree->setInputcloud(cloud);
-std:
-    vector<pcl : PointIndices> clusterIndices;
-pcl:
-    EuclideanclusterExtraction<PointT> ec;
+    std::vector<pcl::PointIndices> clusterIndices;
+    pcl::EuclideanclusterExtraction<PointT> ec;
     ec.setclusterTolerance(clusterTolerance);
     ec.setMinclustersize(minsize);
     ec.setMaxClustersize(maxSize);
