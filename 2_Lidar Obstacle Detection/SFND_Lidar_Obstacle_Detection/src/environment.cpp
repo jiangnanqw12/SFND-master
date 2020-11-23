@@ -54,19 +54,19 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr &viewer)
 
     ProcessPointClouds<pcl::PointXYZ> pointprocessor;
     std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segmentCloud = pointprocessor.SegmentPlane(PCxyz_input, 100, 0.2);
-    renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
-    renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
-    std::vector<pcl::Pointcloud<pcl::PointXYZ>::Ptr> cloudclusters = pointProcessor.Clustering(segmentClound.first, 1.0, 3, 30);
+    //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
+    //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> cloudClusters = pointprocessor.Clustering(segmentCloud.first, 1.0, 3, 30);
 
-    int clusterid = 0;
+    int clusterId = 0;
     std::vector<Color> colors = {Color(1, 0, 0), Color(1, 1, 0), Color(0, 0, 1)};
-    for (pcl ::Pointcloud<pcl ::PointXYZ>::Ptr cluster : cloudClusters)
+    for (pcl ::PointCloud<pcl ::PointXYZ>::Ptr cluster : cloudClusters)
     {
 
         std::cout << "cluster size ";
-        pointProcessor.numPoints(cluster);
-        renderPointcloud(viewer, cluster, "obstcloud" + std::to_string(clusterId), colors[clusterId % colors.size()]);
-        //Box box = pointProcessor.BoundingBox(cluster);
+        pointprocessor.numPoints(cluster);
+        renderPointCloud(viewer, cluster, "obstcloud" + std::to_string(clusterId), colors[clusterId % colors.size()]);
+        //Box box = pointprocessor.BoundingBox(cluster);
         //renderBox(viewer, box, clusterId);
         ++clusterId;
     }

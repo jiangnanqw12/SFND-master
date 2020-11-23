@@ -99,14 +99,14 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
     // TODO:: Fill in the function to perform euclidean clustering to group detected obstacles
     typename pcl ::search ::KdTree<PointT>::Ptr tree(new pcl::search ::KdTree<PointT>);
-    tree->setInputcloud(cloud);
+    tree->setInputCloud(cloud);
     std::vector<pcl::PointIndices> clusterIndices;
     pcl::EuclideanClusterExtraction<PointT> ec;
-    ec.setclusterTolerance(clusterTolerance);
-    ec.setMinclustersize(minSize);
-    ec.setMaxClustersize(maxSize);
-    ec.setsearchMethod(tree);
-    ec.setInputcloud(cloud);
+    ec.setClusterTolerance(clusterTolerance);
+    ec.setMinClusterSize(minSize);
+    ec.setMaxClusterSize(maxSize);
+    ec.setSearchMethod(tree);
+    ec.setInputCloud(cloud);
     ec.extract(clusterIndices);
     for (pcl ::PointIndices getIndices : clusterIndices)
     {
