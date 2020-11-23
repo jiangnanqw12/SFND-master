@@ -98,24 +98,23 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
     std::vector<typename pcl::PointCloud<PointT>::Ptr> clusters;
 
     // TODO:: Fill in the function to perform euclidean clustering to group detected obstacles
-    typename pcl : search : KdTree<PointT>::Ptr tree(new pcl:search
-                                                     : KdTree<PointT>);
+    typename pcl ::search ::KdTree<PointT>::Ptr tree(new pcl::search ::KdTree<PointT>);
     tree->setInputcloud(cloud);
     std::vector<pcl::PointIndices> clusterIndices;
-    pcl::EuclideanclusterExtraction<PointT> ec;
+    pcl::EuclideanClusterExtraction<PointT> ec;
     ec.setclusterTolerance(clusterTolerance);
-    ec.setMinclustersize(minsize);
+    ec.setMinclustersize(minSize);
     ec.setMaxClustersize(maxSize);
     ec.setsearchMethod(tree);
     ec.setInputcloud(cloud);
-    ec.extract(clusterindices);
-    for (pcl : : Pointindi ces getindices : clusteri ndices)
+    ec.extract(clusterIndices);
+    for (pcl ::PointIndices getIndices : clusterIndices)
     {
-        typename pcl::poi ntCloud<PointT>::Ptr cloudCluster(new pcl::PointCloud<PointT>);
-        for (int index : getindices.indices)
-            cloudCluster->points.push_back (cloud->points[index));
+        typename pcl::PointCloud<PointT>::Ptr cloudCluster(new pcl::PointCloud<PointT>);
+        for (int index : getIndices.indices)
+            cloudCluster->points.push_back(cloud->points[index]);
         cloudCluster->width = cloudCluster->points.size();
-        cloudCluster->height = l;
+        cloudCluster->height = 1;
         cloudCluster->is_dense = true;
         clusters.push_back(cloudCluster);
     }
