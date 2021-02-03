@@ -56,7 +56,8 @@ struct KdTree
 	std::vector<int> search(std::vector<float> target, float distanceTol)
 	{
 		std::vector<int> ids;
-		//searchHelper(target, distanceTol, ids, 0, root);
+		std::cout << "1" << std::endl;
+		searchHelper(target, distanceTol, ids, 0, root);
 		return ids;
 	}
 	std::vector<int> searchHelper(std::vector<float> target, float distanceTol, std::vector<int> &ids, int depth, Node *node)
@@ -67,9 +68,11 @@ struct KdTree
 		// float y = node->point[1];
 		if (node != NULL)
 		{
+			std::cout << "2" << std::endl;
 
 			if ((node->point[0] >= target[0] - distanceTol) && (node->point[0] <= target[0] + distanceTol) && (node->point[1] >= target[1] - distanceTol) && (node->point[1] <= target[1] + distanceTol))
 			{
+				std::cout << "id1: " << node->id << std::endl;
 				float dist = sqrt((node->point[0] - target[0]) * (node->point[0] - target[0]) + (node->point[1] - target[1]) * (node->point[1] - target[1]));
 				if (dist <= distanceTol)
 				{
@@ -79,10 +82,13 @@ struct KdTree
 			//x<= left boundary ,the left of select point wont have chance to be in the boxes
 			if (node->point[depth % 2] > target[depth % 2] - distanceTol)
 			{
+				std::cout << "id2: " << node->id << std::endl;
 				searchHelper(target, distanceTol, ids, depth + 1, node->left);
+				std::cout << "id22: " << node->id << std::endl;
 			}
 			if (node->point[depth % 2] < target[depth % 2] + distanceTol)
 			{
+				std::cout << "id3: " << node->id << std::endl;
 				searchHelper(target, distanceTol, ids, depth + 1, node->right);
 			}
 		}
