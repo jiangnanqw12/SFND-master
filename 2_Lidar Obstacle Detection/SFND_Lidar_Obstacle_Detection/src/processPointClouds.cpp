@@ -26,9 +26,9 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     // TODO:: Fill in the function to do voxel grid point reduction and region based filtering
     pcl::VoxelGrid<PointT> vg;
     typename pcl::PointCloud<PointT>::Ptr cloud_filtered(new pcl::PointCloud<PointT>);
-    sor.setInputCloud(cloud);
-    sor.setLeafSize(filterRes, filterRes, filterRes);
-    sor.filter(*cloud_filtered);
+    vg.setInputCloud(cloud);
+    vg.setLeafSize(filterRes, filterRes, filterRes);
+    vg.filter(*cloud_filtered);
 
     typename pcl::PointCloud<PointT>::Ptr cloudRegion(new pcl::PointCloud<PointT>);
     pcl::CropBox<PointT> region(true);
