@@ -60,6 +60,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     std::cout << "filtering took " << elapsedTime.count() << " milliseconds" << std::endl;
 
     return cloudRegion;
+    //return cloud_filtered;
 }
 
 template <typename PointT>
@@ -94,7 +95,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     //separate the pointCloud and break it up into pieces
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
     // Create the segmentation object
-    pcl::SACSegmentation<pcl::PointXYZ> seg;
+    pcl::SACSegmentation<PointT> seg;
     // Optional
     seg.setOptimizeCoefficients(true);
     // Mandatory
