@@ -1,3 +1,4 @@
+#cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 add_definitions(-std=c++11)
