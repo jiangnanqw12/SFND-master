@@ -1,7 +1,6 @@
 #.clang-format file
 ---
 Language: Cpp
-#Visual Studio
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
