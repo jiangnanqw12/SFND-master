@@ -54,6 +54,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr &viewer)
     renderPointCloud(viewer, cloud, "data");
     //ProcessPointClouds<pcl::PointXYZ> PCprocessor; //stack
     ProcessPointClouds<pcl::PointXYZ> *PCprocessorI = new ProcessPointClouds<pcl::PointXYZ>; //heap
+    //PCprocessorI->SegmentPlane(cloud, int maxIterations, float distanceThreshold)
 }
 
 // setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
