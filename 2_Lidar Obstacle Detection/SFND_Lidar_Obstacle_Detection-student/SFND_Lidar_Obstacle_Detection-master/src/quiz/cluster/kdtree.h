@@ -25,29 +25,49 @@ struct KdTree
         : root(NULL)
     {
     }
-    void insertHelper(Node **node, std::vector<float> point, int id, uint depth)
+    void insertHelper(Node **node, uint depth, std::vector<float> point, int id)
     {
         //printf("insert2\n");
         if (*node == NULL)
         {
             *node = new Node(point, id);
         }
+        // else
+        // {
+        //     unsigned int cd = depth % 2;
 
-        else if (root->point[depth % 2] < point[depth % 2])
-        {
-            insertHelper(&((*node)->right), point, id, depth++);
-        }
-
+        //     if (point[cd] < ((*node)->point[cd]))
+        //         insertHelper(&((*node)->left), depth + 1, point, id);
+        //     else
+        //         insertHelper(&((*node)->right), depth + 1, point, id);
+        // }
         else
         {
-            insertHelper(&((*node)->left), point, id, depth++);
+            unsigned int cd = depth % 2;
+            if ((*node)->point[cd] <= point[cd])
+            {
+                insertHelper(&((*node)->right), depth + 1, point, id);
+            }
+            else
+            {
+                insertHelper(&((*node)->left), depth + 1, point, id);
+            }
         }
+        // else if (root->point[depth % 2] < point[depth % 2])
+        // {
+        //     insertHelper(&((*node)->right), depth + 1, point, id);
+        // }
+
+        // else
+        // {
+        //     insertHelper(&((*node)->left), depth + 1, point, id);
+        // }
         //printf("insert3\n");
     }
     void insert(std::vector<float> point, int id)
     {
         //printf("insert1\n");
-        insertHelper(&root, point, id, 0);
+        insertHelper(&root, 0, point, id);
         // TODO: Fill in this function to insert a new point into the tree
         // the function should create a new node and place correctly with in the root
     }
