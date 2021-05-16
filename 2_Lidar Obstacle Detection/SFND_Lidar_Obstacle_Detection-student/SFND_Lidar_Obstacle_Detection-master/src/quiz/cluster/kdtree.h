@@ -71,11 +71,17 @@ struct KdTree
         // TODO: Fill in this function to insert a new point into the tree
         // the function should create a new node and place correctly with in the root
     }
-
+    void searchHelper(std::vector<int> &ids, std::vector<float> target, float distanceTol, Node **node, uint depth)
+    {
+        uint cd = depth % 2;
+        if ((*node)->point[cd] < (*node)->point[cd])
+            ;
+    }
     // return a list of point ids in the tree that are within distance of target
     std::vector<int> search(std::vector<float> target, float distanceTol)
     {
         std::vector<int> ids;
+
         return ids;
     }
 };
