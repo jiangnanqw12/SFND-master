@@ -88,15 +88,24 @@ struct KdTree
         }
         else
         {
-            searchHelper(node, target,
-                         distanceTol, depth + 1, ids);
+            if (((*node)->point[cd] - target[cd]) > 0)
+            {
+                searchHelper(&((*node)->left), target,
+                             distanceTol, depth + 1, ids);
+            }
+            else
+            {
+                searchHelper(&((*node)->right), target,
+                             distanceTol, depth + 1, ids);
+            }
         }
     }
     // return a list of point ids in the tree that are within distance of target
     std::vector<int> search(std::vector<float> target, float distanceTol)
     {
         std::vector<int> ids;
-
+        searchHelper(&root, target,
+                     distanceTol, 0, ids);
         return ids;
     }
 };
