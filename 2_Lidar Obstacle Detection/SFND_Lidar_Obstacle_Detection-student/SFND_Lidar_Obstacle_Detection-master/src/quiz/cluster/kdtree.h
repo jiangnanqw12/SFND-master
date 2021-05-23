@@ -1,8 +1,10 @@
 /* \author Aaron Brown */
 // Quiz on implementing kd tree
-
+#ifndef kdtree_h
+#define kdtree_h
 #include "../../render/render.h"
 
+//#include "helper.h"
 // Structure to represent node of kd tree
 struct Node
 {
@@ -71,32 +73,104 @@ struct KdTree
         // TODO: Fill in this function to insert a new point into the tree
         // the function should create a new node and place correctly with in the root
     }
+#define flag_test_search 1
 
-    void searchHelper(Node **node, std::vector<float> target,
-                      float distanceTol, uint depth, std::vector<int> &ids)
+    void searchHelper(std::vector<float> target, Node **node, int depth,
+                      float distanceTol, std::vector<int> &ids)
     {
         uint cd = depth % 2;
-
-        if (abs((*node)->point[cd] - target[cd]) <= distanceTol)
+#if flag_test_search
+        printf("search 1\n");
+#endif
+        if ((*node) != NULL)
         {
-            float dist = sqrt(((*node)->point[0] - target[0]) * ((*node)->point[0] - target[0]) +
-                              ((*node)->point[1] - target[1]) * ((*node)->point[1] - target[1]));
-            if (dist <= distanceTol)
+#if flag_test_search
+            printf("search 2\n");
+#endif
+            if ((*node)->point[0] >= (target[0] - distanceTol) && //left boundary
+                (*node)->point[0] <= (target[0] + distanceTol) && //right boundary
+                (*node)->point[1] >= (target[1] - distanceTol) && //up boundary
+                (*node)->point[1] <= (target[1] + distanceTol))   //down boundary
             {
-                ids.push_back((*node)->id);
+#if flag_test_search
+                printf("search 2.1\n");
+#endif
+                float dist =
+                    sqrt(((*node)->point[0] - target[0]) * ((*node)->point[0] - target[0]) +
+                         ((*node)->point[1] - target[1]) * ((*node)->point[1] - target[1]));
+                if (dist <= distanceTol)
+                {
+#if flag_test_search
+                    printf("search 2.2\n");
+#endif
+                    ids.push_back((*node)->id);
+                }
             }
         }
-        else
+
+        if (((*node)->point[cd]) > (target[cd] - distanceTol))
         {
-            if (((*node)->point[cd] - target[cd]) > 0)
+#if flag_test_search
+            printf("search 3\n");
+#endif
+            searchHelper(target, &((*node)->left), depth + 1, distanceTol, ids);
+        }
+        if (((*node)->point[cd]) < (target[cd] + distanceTol))
+        {
+#if flag_test_search
+            printf("search 4\n");
+#endif
+            searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
+        }
+    }
+    void searchHelper2(std::vector<float> target, Node **node, int depth,
+                       float distanceTol, std::vector<int> &ids)
+    {
+        uint cd = depth % 2;
+#if flag_test_search
+        printf("search 1\n");
+#endif
+        if ((*node) != NULL)
+        {
+#if flag_test_search
+            printf("search 2\n");
+#endif
+            if ((*node)->point[0] >= (target[0] - distanceTol) && //left boundary
+                (*node)->point[0] <= (target[0] + distanceTol) && //right boundary
+                (*node)->point[1] >= (target[1] - distanceTol) && //up boundary
+                (*node)->point[1] <= (target[1] + distanceTol))   //down boundary
             {
-                searchHelper(&((*node)->left), target,
-                             distanceTol, depth + 1, ids);
+#if flag_test_search
+                printf("search 2.1\n");
+#endif
+                float distance =
+                    sqrt(((*node)->point[0] - target[0]) * ((*node)->point[0] - target[0]) +
+                         ((*node)->point[1] - target[1]) * ((*node)->point[1] - target[1]));
+
+                if (distance <= distanceTol)
+                {
+#if flag_test_search
+                    printf("search 2.2\n");
+#endif
+                    ids.push_back((*node)->id);
+                }
             }
-            else
+
+            // check accross boundary
+            if ((target[cd] - distanceTol) < (*node)->point[cd])
             {
-                searchHelper(&((*node)->right), target,
-                             distanceTol, depth + 1, ids);
+#if flag_test_search
+                printf("search 3\n");
+#endif
+                searchHelper2(target, &((*node)->left), depth + 1, distanceTol, ids);
+            }
+
+            if ((target[cd] + distanceTol) > (*node)->point[cd])
+            {
+#if flag_test_search
+                printf("search 4\n");
+#endif
+                searchHelper2(target, &((*node)->right), depth + 1, distanceTol, ids);
             }
         }
     }
@@ -104,8 +178,9 @@ struct KdTree
     std::vector<int> search(std::vector<float> target, float distanceTol)
     {
         std::vector<int> ids;
-        searchHelper(&root, target,
-                     distanceTol, 0, ids);
+        //searchHelper(target, &root, 0, distanceTol, ids);
+        searchHelper2(target, &root, 0, distanceTol, ids);
         return ids;
     }
 };
+#endif //kdtree.h
