@@ -75,7 +75,13 @@ std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<flo
     // TODO: Fill out this function to return list of indices for each cluster
 
     std::vector<std::vector<int>> clusters;
-
+    std::vector<int> flag_process;
+    for (int i = 0; i < points.size(); i++)
+    {
+        if (points[i] ==)
+        {
+        }
+    }
     return clusters;
 }
 
