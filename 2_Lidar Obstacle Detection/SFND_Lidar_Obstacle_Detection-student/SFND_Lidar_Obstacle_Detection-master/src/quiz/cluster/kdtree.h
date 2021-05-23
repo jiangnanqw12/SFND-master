@@ -36,7 +36,7 @@ struct KdTree
         // TODO: Fill in this function to insert a new point into the tree
         // the function should create a new node and place correctly with in the root
     }
-#define flag_test_search 1
+#define flag_test_search 0
 
     void searchHelper(std::vector<float> target, Node **node, int depth,
                       float distanceTol, std::vector<int> &ids);
