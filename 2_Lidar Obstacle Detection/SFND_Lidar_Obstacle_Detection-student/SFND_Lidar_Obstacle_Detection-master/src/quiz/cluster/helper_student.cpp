@@ -47,3 +47,42 @@ void KdTree::searchHelper(std::vector<float> target, Node **node, int depth,
         }
     }
 }
+void KdTree::insertHelper(Node **node, uint depth, std::vector<float> point, int id)
+{
+    //printf("insert2\n");
+    if (*node == NULL)
+    {
+        *node = new Node(point, id);
+    }
+    // else
+    // {
+    //     unsigned int cd = depth % 2;
+
+    //     if (point[cd] < ((*node)->point[cd]))
+    //         insertHelper(&((*node)->left), depth + 1, point, id);
+    //     else
+    //         insertHelper(&((*node)->right), depth + 1, point, id);
+    // }
+    else
+    {
+        unsigned int cd = depth % 2;
+        if ((*node)->point[cd] <= point[cd])
+        {
+            insertHelper(&((*node)->right), depth + 1, point, id);
+        }
+        else
+        {
+            insertHelper(&((*node)->left), depth + 1, point, id);
+        }
+    }
+    // else if (root->point[depth % 2] < point[depth % 2])
+    // {
+    //     insertHelper(&((*node)->right), depth + 1, point, id);
+    // }
+
+    // else
+    // {
+    //     insertHelper(&((*node)->left), depth + 1, point, id);
+    // }
+    //printf("insert3\n");
+}
