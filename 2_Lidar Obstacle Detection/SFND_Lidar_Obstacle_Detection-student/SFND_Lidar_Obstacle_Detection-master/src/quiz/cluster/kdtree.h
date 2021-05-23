@@ -28,10 +28,11 @@ struct KdTree
     {
     }
     void insertHelper(Node **node, uint depth, std::vector<float> point, int id);
+    void insertHelper_ref(Node *&node, uint depth, std::vector<float> point, int id);
     void insert(std::vector<float> point, int id)
     {
         //printf("insert1\n");
-        insertHelper(&root, 0, point, id);
+        insertHelper_ref(root, 0, point, id);
         // TODO: Fill in this function to insert a new point into the tree
         // the function should create a new node and place correctly with in the root
     }

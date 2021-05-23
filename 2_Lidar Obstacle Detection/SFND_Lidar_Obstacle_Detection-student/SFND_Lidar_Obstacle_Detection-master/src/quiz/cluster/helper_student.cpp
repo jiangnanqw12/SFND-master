@@ -86,3 +86,23 @@ void KdTree::insertHelper(Node **node, uint depth, std::vector<float> point, int
     // }
     //printf("insert3\n");
 }
+void KdTree::insertHelper_ref(Node *&node, uint depth, std::vector<float> point, int id)
+{
+    if (node == NULL)
+    {
+        node = new Node(point, id);
+    }
+
+    else
+    {
+        unsigned int cd = depth % 2;
+        if ((node)->point[cd] <= point[cd])
+        {
+            insertHelper_ref(((node)->right), depth + 1, point, id);
+        }
+        else
+        {
+            insertHelper_ref(((node)->left), depth + 1, point, id);
+        }
+    }
+}
