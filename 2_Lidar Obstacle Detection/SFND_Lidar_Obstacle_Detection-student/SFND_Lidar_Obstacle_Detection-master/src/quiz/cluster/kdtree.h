@@ -6,6 +6,7 @@
 
 //#include "helper.h"
 // Structure to represent node of kd tree
+
 struct Node
 {
     std::vector<float> point;
@@ -52,4 +53,11 @@ struct KdTree
         return ids;
     }
 };
+#define Clustertest 0
+void euclideanClusterHelper_student(const std::vector<std::vector<float>> &points,
+                                    std::vector<int> &cluster, std::vector<bool> &flag_process,
+                                    int id, KdTree *tree, float distanceTol);
+void euclideanClusterHelper_solution(int indice, const std::vector<std::vector<float>> points,
+                                     std::vector<int> &cluster, std::vector<bool> &processed,
+                                     KdTree *tree, float distanceTol);
 #endif //kdtree.h

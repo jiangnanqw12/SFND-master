@@ -68,40 +68,32 @@ void render2DTree(Node *node, pcl::visualization::PCLVisualizer::Ptr &viewer, Bo
         render2DTree(node->right, viewer, upperWindow, iteration, depth + 1);
     }
 }
-void euclideanClusterHelper(const std::vector<std::vector<float>> &points,
-                            std::vector<int> &cluster, std::vector<bool> &flag_process,
-                            int id, KdTree *tree, float distanceTol)
-{
-    flag_process[id] = false;
-    cluster.push_back(id);
-    std::vector<int> ids = tree->search(points[id], distanceTol);
-    for (int i = 0; i < ids.size(); i++)
-    {
-        if (flag_process[i] == false)
-        {
-            std::vector<int> cluster;
-            euclideanClusterHelper(points, cluster, flag_process, i, tree, distanceTol);
-        }
-    }
-}
+
 std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>> &points,
                                                KdTree *tree, float distanceTol)
 {
-
+#if Clustertest
+    printf("euclideanCluster>>()");
+#endif
     // TODO: Fill out this function to return list of indices for each cluster
 
-    std::vector<std::vector<int>> clusters;
+    std::vector<std::vector<int>>
+        clusters;
     std::vector<bool> flag_process(points.size(), false);
     for (int i = 0; i < points.size(); i++)
     {
-        if (flag_process[i] == false)
+        if (flag_process[i])
         {
-            std::vector<int> cluster;
-            euclideanClusterHelper(points, cluster, flag_process, i, tree, distanceTol);
-            clusters.push_back(cluster);
+            continue;
         }
+        std::vector<int> cluster;
+        euclideanClusterHelper_student(points, cluster, flag_process, i, tree, distanceTol);
+        //euclideanClusterHelper_solution(i, points, cluster, flag_process, tree, distanceTol);
+        clusters.push_back(cluster);
     }
-
+#if Clustertest
+    printf("euclideanCluster<<()");
+#endif
     return clusters;
 }
 

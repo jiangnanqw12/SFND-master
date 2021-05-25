@@ -1,4 +1,25 @@
 #include "kdtree.h"
+void euclideanClusterHelper_solution(int id, const std::vector<std::vector<float>> points,
+                                     std::vector<int> &cluster, std::vector<bool> &processed,
+                                     KdTree *tree, float distanceTol)
+{
+#if Clustertest
+    printf("helper>>()");
+#endif
+    processed[id] = true;
+    cluster.push_back(id);
+
+    std::vector<int> ids = tree->search(points[id], distanceTol);
+
+    for (int id : ids)
+    {
+        if (!processed[id])
+            euclideanClusterHelper_solution(id, points, cluster, processed, tree, distanceTol);
+    }
+#if Clustertest
+    printf("helper<<()");
+#endif
+}
 void KdTree::searchHelper_solution(std::vector<float> target, Node **node, int depth,
                                    float distanceTol, std::vector<int> &ids)
 {
