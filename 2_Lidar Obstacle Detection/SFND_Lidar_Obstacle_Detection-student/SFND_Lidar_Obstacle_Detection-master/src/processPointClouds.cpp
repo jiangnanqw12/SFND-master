@@ -5,7 +5,7 @@
 
 //constructor:
 template <typename PointT>
-ProcessPointClouds<PointT>::ProcessPointClouds()  {}
+ProcessPointClouds<PointT>::ProcessPointClouds() {}
 
 //de-constructor:
 template <typename PointT>
