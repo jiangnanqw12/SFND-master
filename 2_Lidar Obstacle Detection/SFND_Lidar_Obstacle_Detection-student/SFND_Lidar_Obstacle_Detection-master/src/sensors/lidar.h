@@ -121,7 +121,7 @@ struct Lidar
 	}
 
 	pcl::PointCloud<pcl::PointXYZ>::Ptr scan()
-	{
+	{	
 		cloud->points.clear();
 		auto startTime = std::chrono::steady_clock::now();
 		for (Ray ray : rays)
