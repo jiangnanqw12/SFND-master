@@ -42,7 +42,7 @@ void clearRays(pcl::visualization::PCLVisualizer::Ptr &viewer)
 
 void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr &viewer, const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, std::string name, Color color)
 {
-    printf("1");
+    printf("\nrenderPointCloud_1\n");
     viewer->addPointCloud<pcl::PointXYZ>(cloud, name);
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 4, name);
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, color.r, color.g, color.b, name);
@@ -50,7 +50,7 @@ void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr &viewer, const pcl:
 
 void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr &viewer, const pcl::PointCloud<pcl::PointXYZI>::Ptr &cloud, std::string name, Color color)
 {
-    printf("2");
+    printf("\nrenderPointCloud_2\n");
     if (color.r == -1)
     {
         // Select color based off of cloud intensity

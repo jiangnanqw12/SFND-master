@@ -1,3 +1,4 @@
+#include "../../render/render.h"
 #include <iostream>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/filters/extract_indices.h>
@@ -7,7 +8,15 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
-
+pcl::visualization::PCLVisualizer::Ptr initScene()
+{
+    pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("2D Viewer"));
+    viewer->setBackgroundColor(0, 0, 0);
+    viewer->initCameraParameters();
+    viewer->setCameraPosition(0, 0, 15, 0, 1, 0);
+    viewer->addCoordinateSystem(1.0);
+    return viewer;
+}
 int main(int argc, char **argv)
 {
     pcl::PCLPointCloud2::Ptr cloud_blob(new pcl::PCLPointCloud2), cloud_filtered_blob(new pcl::PCLPointCloud2);
@@ -15,7 +24,7 @@ int main(int argc, char **argv)
 
     // Fill in the cloud data
     pcl::PCDReader reader;
-    reader.read("table_scene_lms400.pcd", *cloud_blob);
+    reader.read("../../../../../../SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/table_scene_lms400.pcd", *cloud_blob);
 
     std::cerr << "PointCloud before filtering: " << cloud_blob->width * cloud_blob->height << " data points." << std::endl;
 
@@ -79,6 +88,8 @@ int main(int argc, char **argv)
         cloud_filtered.swap(cloud_f);
         i++;
     }
-
+    // Create viewer
+    pcl::visualization::PCLVisualizer::Ptr viewer = initScene();
+    renderPointCloud(viewer, cloud_filtered, "inliers", Color(0, 1, 0));
     return (0);
 }
