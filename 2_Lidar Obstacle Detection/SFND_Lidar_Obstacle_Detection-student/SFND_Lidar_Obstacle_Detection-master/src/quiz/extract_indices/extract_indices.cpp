@@ -8,6 +8,7 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
+#define ISvisualize 1
 pcl::visualization::PCLVisualizer::Ptr initScene()
 {
     pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("2D Viewer"));
@@ -17,8 +18,45 @@ pcl::visualization::PCLVisualizer::Ptr initScene()
     viewer->addCoordinateSystem(1.0);
     return viewer;
 }
+// setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
+void initCamera(CameraAngle setAngle,
+                pcl::visualization::PCLVisualizer::Ptr &viewer)
+{
+
+    viewer->setBackgroundColor(0, 0, 0);
+
+    // set camera position and angle
+    viewer->initCameraParameters();
+    // distance away in meters
+    int distance = 16;
+
+    switch (setAngle)
+    {
+    case XY:
+        viewer->setCameraPosition(-distance, -distance, distance, 1, 1, 0);
+        break;
+    case TopDown:
+        viewer->setCameraPosition(0, 0, distance, 1, 0, 1);
+        break;
+    case Side:
+        viewer->setCameraPosition(0, -distance, 0, 0, 0, 1);
+        break;
+    case FPS:
+        viewer->setCameraPosition(-10, 0, 0, 0, 0, 1);
+    }
+
+    if (setAngle != FPS)
+        viewer->addCoordinateSystem(1.0);
+}
 int main(int argc, char **argv)
 {
+#if ISvisualize
+    pcl::visualization::PCLVisualizer::Ptr viewer(
+        new pcl::visualization::PCLVisualizer("3D Viewer"));
+    CameraAngle setAngle = XY;
+    // CameraAngle setAngle = FPS;
+    initCamera(setAngle, viewer);
+#endif
     pcl::PCLPointCloud2::Ptr cloud_blob(new pcl::PCLPointCloud2), cloud_filtered_blob(new pcl::PCLPointCloud2);
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>), cloud_p(new pcl::PointCloud<pcl::PointXYZ>), cloud_f(new pcl::PointCloud<pcl::PointXYZ>);
 
@@ -88,8 +126,13 @@ int main(int argc, char **argv)
         cloud_filtered.swap(cloud_f);
         i++;
     }
-    // Create viewer
-    pcl::visualization::PCLVisualizer::Ptr viewer = initScene();
-    renderPointCloud(viewer, cloud_filtered, "inliers", Color(0, 1, 0));
+
+    //renderPointCloud(viewer, cloud_filtered, "inliers", Color(0, 1, 0));
+    //renderPointCloud(viewer, cloud_f, "inliers", Color(0, 0, 1));
+    renderPointCloud(viewer, cloud_p, "inliers", Color(1, 0, 0));
+    while (!viewer->wasStopped())
+    {
+        viewer->spinOnce();
+    }
     return (0);
 }
