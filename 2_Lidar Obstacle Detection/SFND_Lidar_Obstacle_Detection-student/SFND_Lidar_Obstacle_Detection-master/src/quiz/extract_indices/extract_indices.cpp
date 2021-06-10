@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
     // Convert to the templated PointCloud
     pcl::fromPCLPointCloud2(*cloud_filtered_blob, *cloud_filtered);
-
+    renderPointCloud(viewer, cloud_filtered, "cloud_filtered", Color(1, 0, 0));
     std::cerr << "PointCloud after filtering: " << cloud_filtered->width * cloud_filtered->height << " data points." << std::endl;
 
     // Write the downsampled version to disk
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 
     //renderPointCloud(viewer, cloud_filtered, "inliers", Color(0, 1, 0));
     //renderPointCloud(viewer, cloud_f, "inliers", Color(0, 0, 1));
-    renderPointCloud(viewer, cloud_p, "inliers", Color(1, 0, 0));
+    //renderPointCloud(viewer, cloud_p, "inliers", Color(1, 0, 0));
     while (!viewer->wasStopped())
     {
         viewer->spinOnce();
