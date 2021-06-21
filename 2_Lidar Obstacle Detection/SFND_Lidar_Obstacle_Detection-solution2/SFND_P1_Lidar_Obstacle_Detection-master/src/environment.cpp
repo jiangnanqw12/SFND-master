@@ -117,7 +117,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr &viewer,
   // std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters =
   // pointProcessor->euclideanCluster(segmentCloud.first, tree, 0.5, 30, 250);
   std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters =
-      pointProcessor->euclideanCluster(segmentCloud.first, tree, 0.35, 15, 500);
+      pointProcessor->euclideanCluster(segmentCloud.first, tree, 53, 15, 500);
 
   renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
   renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));

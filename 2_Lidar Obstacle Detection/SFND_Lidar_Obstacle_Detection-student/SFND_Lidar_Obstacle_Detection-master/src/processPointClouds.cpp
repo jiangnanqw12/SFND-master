@@ -2,7 +2,7 @@
 
 #include "processPointClouds.h"
 #include "pcl/ModelCoefficients.h"
-
+#include <unordered_set>
 //constructor:
 template <typename PointT>
 ProcessPointClouds<PointT>::ProcessPointClouds() {}
@@ -125,7 +125,61 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliers, cloud);
     return segResult;
 }
-
+std::unordered_set<int> RansacPlane2(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int maxIterations, float distanceTol)
+{
+    std::unordered_set<int> inliersResult;
+    srand(time(NULL));
+    while (maxIterations--)
+    {
+        std::unordered_set<int> inliers;
+        while (inliers.size() < 3)
+        {
+            inliers.insert(rand() % (cloud->points.size()));
+            std::cout << cloud->points.size() << std::endl;
+        }
+        float x1, x2, x3, y1, y2, y3, z1, z2, z3;
+        auto itr = inliers.begin();
+        x1 = cloud->points[*itr].x;
+        y1 = cloud->points[*itr].y;
+        z1 = cloud->points[*itr].z;
+        itr++;
+        x2 = cloud->points[*itr].x;
+        y2 = cloud->points[*itr].y;
+        z2 = cloud->points[*itr].z;
+        itr++;
+        x3 = cloud->points[*itr].x;
+        y3 = cloud->points[*itr].y;
+        z3 = cloud->points[*itr].z;
+        float a, b, c, d, i, j, k;
+        i = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
+        j = (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1);
+        k = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+        a = i;
+        b = j;
+        c = k;
+        d = -(i * x1 + j * y1 + k * z1);
+        for (int index = 0; index < cloud->points.size(); index++)
+        {
+            if (inliers.count(index) > 0)
+            {
+                continue;
+            }
+            float x4 = cloud->points[index].x;
+            float y4 = cloud->points[index].y;
+            float z4 = cloud->points[index].z;
+            float dist = fabs(a * x4 + b * y4 + c * z4 + d) / (sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2)));
+            if (dist <= distanceTol)
+            {
+                inliers.insert(index);
+            }
+        }
+        if (inliers.size() > inliersResult.size())
+        {
+            inliersResult = inliers;
+        }
+    }
+    return inliersResult;
+}
 template <typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering(typename pcl::PointCloud<PointT>::Ptr cloud,
                                                                                           float clusterTolerance, int minSize, int maxSize)
