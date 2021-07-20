@@ -194,22 +194,26 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
                                                Eigen::Vector4f(-10, -5, -2, 1),
                                                Eigen::Vector4f(30, 8, 1, 1));
     //renderPointCloud(viewer, filterCloud, "filterCloud");
-    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->SegmentPlane(filterCloud, 25, 0.3);
+    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->RansacPlane_student(filterCloud, 25, 0.3);
     //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
     //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentCloud.first, 0.53, 10, 500);
+    //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering_euclideanCluster(segmentCloud.first, 0.53, 10, 500, viewer);
+    KdTree *tree = new KdTree;
+
+    for (int i = 0; i < segmentCloud.first->points.size(); i++)
+        tree->insert(segmentCloud.first->points[i], i);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1, 0, 0), Color(1, 1, 0), Color(0, 0, 1)};
-    for (auto cloudcluster : cloudClusters)
-    {
-        std::cout << "cluster size ";
-        pointProcessorI->numPoints(cloudcluster);
-        renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
-                         colors[clusterId % colors.size()]);
-        Box box = pointProcessorI->BoundingBox(cloudcluster);
-        renderBox(viewer, box, clusterId);
-        clusterId++;
-    }
+    // for (auto cloudcluster : cloudClusters)
+    // {
+    //     std::cout << "cluster size ";
+    //     pointProcessorI->numPoints(cloudcluster);
+    //     renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
+    //                      colors[clusterId % colors.size()]);
+    //     Box box = pointProcessorI->BoundingBox(cloudcluster);
+    //     renderBox(viewer, box, clusterId);
+    //     clusterId++;
+    // }
 }
 // void cityBlock_solution(pcl::visualization::PCLVisualizer::Ptr &viewer,
 //                         ProcessPointClouds<pcl::PointXYZI> *pointProcessor,
@@ -321,19 +325,31 @@ int main(int argc, char **argv)
     //cityBlock(viewer);
     //cityBlock_student(viewer, pointProcessorI, inputCloudI);
     //cityBlock_solution(viewer, pointProcessorI, inputCloudI);
+    // Clear viewer
+    viewer->removeAllPointClouds();
+    viewer->removeAllShapes();
+
+    // Load pcd and run obstacle detection process
+    inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+    cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
     while (!viewer->wasStopped())
     {
-        // Clear viewer
-        viewer->removeAllPointClouds();
-        viewer->removeAllShapes();
 
-        // Load pcd and run obstacle detection process
-        inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
-        cityBlock_student(viewer, pointProcessorI, inputCloudI);
-
-        streamIterator++;
-        if (streamIterator == stream.end())
-            streamIterator = stream.begin();
         viewer->spinOnce();
     }
+    // while (!viewer->wasStopped())
+    // {
+    //     // Clear viewer
+    //     viewer->removeAllPointClouds();
+    //     viewer->removeAllShapes();
+
+    //     // Load pcd and run obstacle detection process
+    //     inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+    //     cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
+
+    //     streamIterator++;
+    //     if (streamIterator == stream.end())
+    //         streamIterator = stream.begin();
+    //     viewer->spinOnce();
+    // }
 }
