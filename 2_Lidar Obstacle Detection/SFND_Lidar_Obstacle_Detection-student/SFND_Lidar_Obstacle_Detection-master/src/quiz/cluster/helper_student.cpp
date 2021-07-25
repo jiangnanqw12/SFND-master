@@ -1,26 +1,5 @@
 #include "kdtree.h"
-void euclideanClusterHelper_student(const std::vector<std::vector<float>> &points,
-                                    std::vector<int> &cluster, std::vector<bool> &flag_process,
-                                    int id, KdTree *tree, float distanceTol)
-{
-#if Clustertest
-    printf("helper>>()");
-#endif
-    flag_process[id] = true;
-    cluster.push_back(id);
-    std::vector<int> ids = tree->search(points[id], distanceTol);
-    for (int i = 0; i < ids.size(); i++)
-    {
-        if (flag_process[ids[i]] == false)
-        {
 
-            euclideanClusterHelper_student(points, cluster, flag_process, ids[i], tree, distanceTol);
-        }
-    }
-#if Clustertest
-    printf("helper<<()");
-#endif
-}
 void KdTree::searchHelper(std::vector<float> target, Node **node, int depth,
                           float distanceTol, std::vector<int> &ids)
 {

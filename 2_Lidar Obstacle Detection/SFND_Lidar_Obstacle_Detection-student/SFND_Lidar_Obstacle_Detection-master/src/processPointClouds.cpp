@@ -139,7 +139,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
         while (inliers.size() < 3)
         {
             inliers.insert(rand() % (cloud->points.size()));
-            std::cout << cloud->points.size() << std::endl;
+            //std::cout << cloud->points.size() << std::endl;
         }
         float x1, x2, x3, y1, y2, y3, z1, z2, z3;
         auto itr = inliers.begin();
@@ -210,21 +210,31 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
     // Time clustering process
     auto startTime = std::chrono::steady_clock::now();
-    Box window;
-    window.x_min = -10;
-    window.x_max = 10;
-    window.y_min = -10;
-    window.y_max = 10;
-    window.z_min = 0;
-    window.z_max = 0;
+#if Clustertest
+    printf("euclideanCluster>>()");
+#endif
+    // TODO: Fill out this function to return list of indices for each cluster
+
+    typename KdTree_euclidean<PointT>::KdTree_euclidean *tree = new KdTree_euclidean<PointT>;
+    for (int i = 0; i < cloud->points.size(); i++)
+        tree->insert((cloud)->points[i], i);
 
     std::vector<typename pcl::PointCloud<PointT>::Ptr> clusters;
-    KdTree *tree = new KdTree;
-
+    std::vector<bool> flag_process(cloud->points.size(), false);
     for (int i = 0; i < cloud->points.size(); i++)
-        tree->insert(cloud->points[i], i);
-
-    int it = 0;
+    {
+        if (flag_process[i])
+        {
+            continue;
+        }
+        typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
+        euclideanClusterHelper_student(cloud, cloud_cluster, flag_process, i, tree, clusterTolerance);
+        //euclideanClusterHelper_solution(i, points, cluster, flag_process, tree, clusterTolerance);
+        clusters.push_back(cloud_cluster);
+    }
+#if Clustertest
+    printf("euclideanCluster<<()");
+#endif
     //render2DTree(tree->root, viewer, window, it);
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
@@ -232,6 +242,30 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
     return clusters;
 }
+template <typename PointT>
+void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::PointCloud<PointT>::Ptr cloud,
+                                                                typename pcl::PointCloud<PointT>::Ptr cloud_cluster, std::vector<bool> &flag_process,
+                                                                int id, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol)
+{
+#if Clustertest
+    printf("helper>>()");
+#endif
+    flag_process[id] = true;
+    cloud_cluster->push_back(id);
+    std::vector<int> ids = tree->search(cloud->points[id], distanceTol);
+    for (int i = 0; i < ids.size(); i++)
+    {
+        if (flag_process[ids[i]] == false)
+        {
+
+            euclideanClusterHelper_student(cloud, cloud_cluster, flag_process, ids[i], tree, distanceTol);
+        }
+    }
+#if Clustertest
+    printf("helper<<()");
+#endif
+}
+
 template <typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering(
     typename pcl::PointCloud<PointT>::Ptr cloud,
@@ -328,4 +362,32 @@ std::vector<boost::filesystem::path> ProcessPointClouds<PointT>::streamPcd(std::
     sort(paths.begin(), paths.end());
 
     return paths;
+}
+template <typename PointT>
+void render2DTree(Node<PointT> *node, pcl::visualization::PCLVisualizer::Ptr &viewer, Box window, int &iteration, uint depth)
+{
+
+    if (node != NULL)
+    {
+        Box upperWindow = window;
+        Box lowerWindow = window;
+        // split on x axis
+        if (depth % 2 == 0)
+        {
+            viewer->addLine(pcl::PointXYZ(node->point.x, window.y_min, 0), pcl::PointXYZ(node->point.x, window.y_max, 0), 0, 0, 1, "line" + std::to_string(iteration));
+            lowerWindow.x_max = node->point.x;
+            upperWindow.x_min = node->point.x;
+        }
+        // split on y axis
+        else
+        {
+            viewer->addLine(pcl::PointXYZ(window.x_min, node->point.y, 0), pcl::PointXYZ(window.x_max, node->point.y, 0), 1, 0, 0, "line" + std::to_string(iteration));
+            lowerWindow.y_max = node->point.y;
+            upperWindow.y_min = node->point.y;
+        }
+        iteration++;
+
+        render2DTree(node->left, viewer, lowerWindow, iteration, depth + 1);
+        render2DTree(node->right, viewer, upperWindow, iteration, depth + 1);
+    }
 }

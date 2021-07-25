@@ -3,6 +3,7 @@
 #ifndef PROCESSPOINTCLOUDS_H_
 #define PROCESSPOINTCLOUDS_H_
 
+#include "kdtree.h"
 #include "render/box.h"
 #include "render/render.h"
 #include <chrono>
@@ -19,7 +20,6 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <string>
 #include <vector>
-
 template <typename PointT>
 class ProcessPointClouds
 {
@@ -38,10 +38,19 @@ public:
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceThreshold);
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> RansacPlane_student(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceTol);
     std::vector<typename pcl::PointCloud<PointT>::Ptr> Clustering(typename pcl::PointCloud<PointT>::Ptr cloud, float clusterTolerance, int minSize, int maxSize);
+
     std::vector<typename pcl::PointCloud<PointT>::Ptr> Clustering_euclideanCluster(
         typename pcl::PointCloud<PointT>::Ptr cloud,
         float clusterTolerance, int minSize, int maxSize, pcl::visualization::PCLVisualizer::Ptr &viewer);
+    void euclideanClusterHelper_student(typename pcl::PointCloud<PointT>::Ptr cloud,
+                                        typename pcl::PointCloud<PointT>::Ptr cloud_cluster, std::vector<bool> &flag_process,
+                                        int id, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol);
+#define Clustertest 0
 
+    void euclideanClusterHelper_solution(int indice, const std::vector<std::vector<float>> points,
+                                         std::vector<int> &cluster, std::vector<bool> &processed,
+                                         typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol);
+    void render2DTree(Node<PointT> *node, pcl::visualization::PCLVisualizer::Ptr &viewer, Box window, int &iteration, uint depth = 0);
     Box BoundingBox(typename pcl::PointCloud<PointT>::Ptr cluster);
 
     void savePcd(typename pcl::PointCloud<PointT>::Ptr cloud, std::string file);
