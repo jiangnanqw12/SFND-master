@@ -20,6 +20,7 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <string>
 #include <vector>
+#define Clustertest 0
 template <typename PointT>
 class ProcessPointClouds
 {
@@ -45,7 +46,6 @@ public:
     void euclideanClusterHelper_student(typename pcl::PointCloud<PointT>::Ptr cloud,
                                         typename pcl::PointCloud<PointT>::Ptr cloud_cluster, std::vector<bool> &flag_process,
                                         int id, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol);
-#define Clustertest 0
 
     void euclideanClusterHelper_solution(int indice, const std::vector<std::vector<float>> points,
                                          std::vector<int> &cluster, std::vector<bool> &processed,
