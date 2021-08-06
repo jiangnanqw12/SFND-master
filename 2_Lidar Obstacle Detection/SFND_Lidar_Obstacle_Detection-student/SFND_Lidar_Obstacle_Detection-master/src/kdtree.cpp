@@ -1,9 +1,54 @@
 #include "kdtree.h"
 #include "pcl/impl/point_types.hpp"
+//template <typename PointT>
+// void KdTree_euclidean<PointT>::insertHelper(typename Node<PointT>::Node **node, uint depth, PointT point, int id)
+// {
+//     //printf("insert2\n");
+//     if (*node == NULL)
+//     {
+//         *node = new Node<PointT>(point, id);
+//     }
 
+//     else
+//     {
+//         unsigned int cd = depth % 3;
+//         if (cd == 0)
+//         {
+//             if ((*node)->point.x <= point.x)
+//             {
+//                 insertHelper(&((*node)->right), depth + 1, point, id);
+//             }
+//             else
+//             {
+//                 insertHelper(&((*node)->left), depth + 1, point, id);
+//             }
+//         }
+//         else if (cd == 1)
+//         {
+//             if ((*node)->point.y <= point.y)
+//             {
+//                 insertHelper(&((*node)->right), depth + 1, point, id);
+//             }
+//             else
+//             {
+//                 insertHelper(&((*node)->left), depth + 1, point, id);
+//             }
+//         }
+//         else if (cd == 2)
+//         {
+//             if ((*node)->point.z <= point.z)
+//             {
+//                 insertHelper(&((*node)->right), depth + 1, point, id);
+//             }
+//             else
+//             {
+//                 insertHelper(&((*node)->left), depth + 1, point, id);
+//             }
+//         }
+//     }
+// }
 // template <typename PointT>
-// void KdTree_euclidean<PointT>::searchHelper(PointT target, Node<PointT> **node, int depth,
-//                                             float distanceTol, std::vector<int> &ids)
+// void KdTree_euclidean<PointT>::searchHelper()
 // {
 //     //     uint cd = depth % 2;
 //     // #if flag_test_search
@@ -49,6 +94,14 @@
 //     //             searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
 //     //         }
 //     //     }
+// }
+// template <typename PointT>
+// std::vector<int> KdTree_euclidean<PointT>::search()
+// {
+//     std::vector<int> ids;
+//     //searchHelper(target, &root, 0, distanceTol, ids);
+//     searchHelper();
+//     return ids;
 // }
 // template <typename PointT>
 // void KdTree_euclidean<PointT>::insertHelper(Node<PointT> **node, uint depth, PointT point, int id)

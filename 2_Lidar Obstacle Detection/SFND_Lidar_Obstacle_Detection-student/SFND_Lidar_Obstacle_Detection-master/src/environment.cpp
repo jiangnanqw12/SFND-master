@@ -10,7 +10,6 @@
 #include "processPointClouds.cpp"
 #include <string>
 
-
 std::vector<Car> initHighway(bool renderScene,
                              pcl::visualization::PCLVisualizer::Ptr &viewer)
 {
@@ -199,7 +198,8 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
     //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
     //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering_euclideanCluster(segmentCloud.first, 0.53, 10, 500, viewer);
-
+    KdTree_euclidean<pcl::PointXYZI> *tree;
+    pointProcessorI->test(segmentCloud.first, tree);
     //view insert
     // int it = 0;
     // Box window;

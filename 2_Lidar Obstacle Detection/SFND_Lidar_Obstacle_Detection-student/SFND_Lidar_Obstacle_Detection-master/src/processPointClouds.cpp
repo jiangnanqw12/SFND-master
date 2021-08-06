@@ -215,7 +215,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 #endif
     // TODO: Fill out this function to return list of indices for each cluster
 
-    typename KdTree_euclidean<PointT>::KdTree_euclidean *tree = new KdTree_euclidean<PointT>;
+    typename KdTree_euclidean<PointT>::KdTree_euclidean *tree(new KdTree_euclidean<PointT>);
     for (int i = 0; i < cloud->points.size(); i++)
         tree->insert((cloud)->points[i], i);
 
@@ -253,6 +253,8 @@ void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::Po
     flag_process[id] = true;
     cloud_cluster->push_back(id);
     std::vector<int> ids = tree->search(cloud->points[id], distanceTol);
+    //std::vector<int> ids = tree->search(cloud, id, distanceTol);
+    //std::vector<int> ids;
     for (int i = 0; i < ids.size(); i++)
     {
         if (flag_process[ids[i]] == false)
@@ -310,7 +312,11 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
     return clusters;
 }
-
+template <typename PointT>
+void ProcessPointClouds<PointT>::test(typename pcl::PointCloud<PointT>::Ptr cloud, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree)
+{
+    //tree->search();
+}
 template <typename PointT>
 Box ProcessPointClouds<PointT>::BoundingBox(typename pcl::PointCloud<PointT>::Ptr cluster)
 {

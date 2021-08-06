@@ -51,6 +51,7 @@ public:
                                          std::vector<int> &cluster, std::vector<bool> &processed,
                                          typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol);
     void render2DTree(Node<PointT> *node, pcl::visualization::PCLVisualizer::Ptr &viewer, Box window, int &iteration, uint depth = 0);
+    void test(typename pcl::PointCloud<PointT>::Ptr cloud, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree);
     Box BoundingBox(typename pcl::PointCloud<PointT>::Ptr cluster);
 
     void savePcd(typename pcl::PointCloud<PointT>::Ptr cloud, std::string file);

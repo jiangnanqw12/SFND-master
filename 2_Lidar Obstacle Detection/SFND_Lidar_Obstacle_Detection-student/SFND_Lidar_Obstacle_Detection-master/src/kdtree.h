@@ -10,6 +10,7 @@
 template <typename PointT>
 struct Node
 {
+public:
     //std::vector<float> point;
     PointT point;
     int id;
@@ -24,14 +25,16 @@ struct Node
 template <typename PointT>
 struct KdTree_euclidean
 {
+public:
     Node<PointT> *root;
 
     KdTree_euclidean()
         : root(NULL)
     {
     }
-    //void insertHelper(Node<PointT> **node, uint depth, PointT point, int id);
-    //template <typename PointT>
+    //void insertHelper(typename Node<PointT>::Node **node, uint depth, int id);
+    //void insertHelper(typename Node<PointT>::Node **node, uint depth, PointT point, int id);
+    // //template <typename PointT>
     void insertHelper(Node<PointT> **node, uint depth, PointT point, int id)
     {
         //printf("insert2\n");
@@ -146,16 +149,18 @@ struct KdTree_euclidean
         //     }
     }
 
-    void searchHelper_solution(PointT target, Node<PointT> **node, int depth,
+    void searchHelper_solution(PointT target, typename Node<PointT>::Node **node, int depth,
                                float distanceTol, std::vector<int> &ids);
 
     // return a list of point ids in the tree that are within distance of target
+    //void searchHelper();
+    //std::vector<int> search(typename pcl::PointCloud<PointT>::Ptr cloud, int id, float distanceTol);
 
     std::vector<int> search(PointT target, float distanceTol)
     {
         std::vector<int> ids;
-        //searchHelper(target, &root, 0, distanceTol, ids);
         searchHelper(target, &root, 0, distanceTol, ids);
+        //searchHelper();
         return ids;
     }
 };
