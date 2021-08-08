@@ -1,5 +1,9 @@
 #include "kdtree.h"
 #include "pcl/impl/point_types.hpp"
+template <typename PointT>
+void KdTree_euclidean<PointT>::test1()
+{
+}
 //template <typename PointT>
 // void KdTree_euclidean<PointT>::insertHelper(typename Node<PointT>::Node **node, uint depth, PointT point, int id)
 // {

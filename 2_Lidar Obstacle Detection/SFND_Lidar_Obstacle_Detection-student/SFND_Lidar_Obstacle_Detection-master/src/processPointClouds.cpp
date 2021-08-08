@@ -254,6 +254,7 @@ void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::Po
     cloud_cluster->push_back(id);
     std::vector<int> ids = tree->search(cloud->points[id], distanceTol);
     //std::vector<int> ids = tree->search(cloud, id, distanceTol);
+    tree->test2();
     //std::vector<int> ids;
     for (int i = 0; i < ids.size(); i++)
     {
@@ -315,7 +316,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 template <typename PointT>
 void ProcessPointClouds<PointT>::test(typename pcl::PointCloud<PointT>::Ptr cloud, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree)
 {
-    //tree->search();
+    tree->search();
 }
 template <typename PointT>
 Box ProcessPointClouds<PointT>::BoundingBox(typename pcl::PointCloud<PointT>::Ptr cluster)

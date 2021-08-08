@@ -32,6 +32,11 @@ public:
         : root(NULL)
     {
     }
+    void test1();
+    void test2()
+    {
+        test1();
+    };
     //void insertHelper(typename Node<PointT>::Node **node, uint depth, int id);
     //void insertHelper(typename Node<PointT>::Node **node, uint depth, PointT point, int id);
     // //template <typename PointT>
