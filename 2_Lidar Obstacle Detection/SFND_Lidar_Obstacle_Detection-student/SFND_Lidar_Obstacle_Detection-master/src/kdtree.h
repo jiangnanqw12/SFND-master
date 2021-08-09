@@ -108,50 +108,79 @@ public:
     void searchHelper(PointT target, Node<PointT> **node, int depth,
                       float distanceTol, std::vector<int> &ids)
     {
-        //     uint cd = depth % 2;
-        // #if flag_test_search
-        //     printf("search 1\n");
-        // #endif
-        //     if ((*node) != NULL)
-        //     {
-        // #if flag_test_search
-        //         printf("search 2\n");
-        // #endif
-        //         if ((*node)->point[0] >= (target[0] - distanceTol) && //left boundary
-        //             (*node)->point[0] <= (target[0] + distanceTol) && //right boundary
-        //             (*node)->point[1] >= (target[1] - distanceTol) && //up boundary
-        //             (*node)->point[1] <= (target[1] + distanceTol))   //down boundary
-        //         {
-        // #if flag_test_search
-        //             printf("search 2.1\n");
-        // #endif
-        //             float dist =
-        //                 sqrt(((*node)->point[0] - target[0]) * ((*node)->point[0] - target[0]) +
-        //                      ((*node)->point[1] - target[1]) * ((*node)->point[1] - target[1]));
-        //             if (dist <= distanceTol)
-        //             {
-        // #if flag_test_search
-        //                 printf("search 2.2\n");
-        // #endif
-        //                 ids.push_back((*node)->id);
-        //             }
-        //         }
+        uint cd = depth % 3;
+#if flag_test_search
+        printf("search 1\n");
+#endif
+        if ((*node) != NULL)
+        {
+#if flag_test_search
+            printf("search 2\n");
+#endif
+            if ((*node)->point.x >= (target.x - distanceTol) && //left boundary
+                (*node)->point.x <= (target.x + distanceTol) && //right boundary
+                (*node)->point.y >= (target.y - distanceTol) && //up boundary
+                (*node)->point.y <= (target.y + distanceTol) && //down boundary
+                (*node)->point.z >= (target.z - distanceTol) &&
+                (*node)->point.z <= (target.z + distanceTol))
+            {
+#if flag_test_search
+                printf("search 2.1\n");
+#endif
 
-        //         if (((*node)->point[cd]) > (target[cd] - distanceTol))
-        //         {
-        // #if flag_test_search
-        //             printf("search 3\n");
-        // #endif
-        //             searchHelper(target, &((*node)->left), depth + 1, distanceTol, ids);
-        //         }
-        //         if (((*node)->point[cd]) < (target[cd] + distanceTol))
-        //         {
-        // #if flag_test_search
-        //             printf("search 4\n");
-        // #endif
-        //             searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
-        //         }
-        //     }
+                float dist =
+                    sqrt(((*node)->point.x - target.x) * ((*node)->point.x - target.x) +
+                         ((*node)->point.y - target.y) * ((*node)->point.y - target.y) +
+                         ((*node)->point.z - target.z) * ((*node)->point.z - target.z));
+
+                if (dist <= distanceTol)
+                {
+#if flag_test_search
+                    printf("search 2.2\n");
+#endif
+                    ids.push_back((*node)->id);
+                }
+            }
+            if (cd == 0)
+            {
+                if (((*node)->point.x) > (target.x - distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->left), depth + 1, distanceTol, ids);
+                }
+                if (((*node)->point.x) < (target.x + distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
+                }
+            }
+            if (cd == 1)
+            {
+                if (((*node)->point.y) > (target.y - distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->left), depth + 1, distanceTol, ids);
+                }
+                if (((*node)->point.y) < (target.y + distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
+                }
+            }
+            if (cd == 2)
+            {
+                if (((*node)->point.z) > (target.z - distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->left), depth + 1, distanceTol, ids);
+                }
+                if (((*node)->point.z) < (target.z + distanceTol))
+                {
+
+                    searchHelper(target, &((*node)->right), depth + 1, distanceTol, ids);
+                }
+            }
+        }
     }
 
     void searchHelper_solution(PointT target, typename Node<PointT>::Node **node, int depth,

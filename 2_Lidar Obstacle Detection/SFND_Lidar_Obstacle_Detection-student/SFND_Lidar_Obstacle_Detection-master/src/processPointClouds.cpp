@@ -254,7 +254,7 @@ void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::Po
     cloud_cluster->push_back(id);
     std::vector<int> ids = tree->search(cloud->points[id], distanceTol);
     //std::vector<int> ids = tree->search(cloud, id, distanceTol);
-    tree->test2();
+    //tree->test2();
     //std::vector<int> ids;
     for (int i = 0; i < ids.size(); i++)
     {
