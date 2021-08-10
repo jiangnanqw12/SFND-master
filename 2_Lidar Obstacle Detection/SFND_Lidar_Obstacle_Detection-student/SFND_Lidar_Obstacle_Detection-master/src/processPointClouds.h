@@ -44,7 +44,7 @@ public:
         typename pcl::PointCloud<PointT>::Ptr cloud,
         float clusterTolerance, int minSize, int maxSize, pcl::visualization::PCLVisualizer::Ptr &viewer);
     void euclideanClusterHelper_student(typename pcl::PointCloud<PointT>::Ptr cloud,
-                                        typename pcl::PointCloud<PointT>::Ptr cloud_cluster, std::vector<bool> &flag_process,
+                                        std::vector<int> &cluster, std::vector<bool> &flag_process,
                                         int id, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol);
 
     void euclideanClusterHelper_solution(int indice, const std::vector<std::vector<float>> points,

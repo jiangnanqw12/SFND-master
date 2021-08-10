@@ -215,11 +215,12 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 #endif
     // TODO: Fill out this function to return list of indices for each cluster
 
-    typename KdTree_euclidean<PointT>::KdTree_euclidean *tree(new KdTree_euclidean<PointT>);
+    typename KdTree_euclidean<PointT>::KdTree_euclidean *tree = new KdTree_euclidean<PointT>;
     for (int i = 0; i < cloud->points.size(); i++)
         tree->insert((cloud)->points[i], i);
 
     std::vector<typename pcl::PointCloud<PointT>::Ptr> clusters;
+    std::vector<std::vector<int>> cluster_indices;
     std::vector<bool> flag_process(cloud->points.size(), false);
     for (int i = 0; i < cloud->points.size(); i++)
     {
@@ -227,10 +228,23 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
         {
             continue;
         }
-        typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
-        euclideanClusterHelper_student(cloud, cloud_cluster, flag_process, i, tree, clusterTolerance);
+        //typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
+        std::vector<int> cluster;
+        euclideanClusterHelper_student(cloud, cluster, flag_process, i, tree, clusterTolerance);
         //euclideanClusterHelper_solution(i, points, cluster, flag_process, tree, clusterTolerance);
+        cluster_indices.push_back(cluster);
+    }
+    for (std::vector<std::vector<int>>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+    {
+        typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
+        for (const auto &idx : it->indices)
+            cloud_cluster->push_back((*cloud)[idx]); //*
+        //cloud_cluster->push_back((*cloud)[idx]);
+        cloud_cluster->width = cloud_cluster->size();
+        cloud_cluster->height = 1;
+        cloud_cluster->is_dense = true;
         clusters.push_back(cloud_cluster);
+        //std::cout << "PointCloud representing the Cluster: " << cloud_cluster->size() << " data points." << std::endl;
     }
 #if Clustertest
     printf("euclideanCluster<<()");
@@ -244,14 +258,14 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 }
 template <typename PointT>
 void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::PointCloud<PointT>::Ptr cloud,
-                                                                typename pcl::PointCloud<PointT>::Ptr cloud_cluster, std::vector<bool> &flag_process,
+                                                                std::vector<int> &cluster, std::vector<bool> &flag_process,
                                                                 int id, typename KdTree_euclidean<PointT>::KdTree_euclidean *tree, float distanceTol)
 {
 #if Clustertest
     printf("helper>>()");
 #endif
     flag_process[id] = true;
-    cloud_cluster->push_back(id);
+    cluster.push_back(id);
     std::vector<int> ids = tree->search(cloud->points[id], distanceTol);
     //std::vector<int> ids = tree->search(cloud, id, distanceTol);
     //tree->test2();
@@ -261,7 +275,7 @@ void ProcessPointClouds<PointT>::euclideanClusterHelper_student(typename pcl::Po
         if (flag_process[ids[i]] == false)
         {
 
-            euclideanClusterHelper_student(cloud, cloud_cluster, flag_process, ids[i], tree, distanceTol);
+            euclideanClusterHelper_student(cloud, cluster, flag_process, ids[i], tree, distanceTol);
         }
     }
 #if Clustertest

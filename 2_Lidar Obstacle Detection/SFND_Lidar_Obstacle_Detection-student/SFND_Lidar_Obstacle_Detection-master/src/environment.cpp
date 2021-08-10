@@ -195,8 +195,8 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
                                                Eigen::Vector4f(30, 8, 1, 1));
     //renderPointCloud(viewer, filterCloud, "filterCloud");
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->RansacPlane_student(filterCloud, 25, 0.3);
-    renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
-    renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
+    //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
+    //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering_euclideanCluster(segmentCloud.first, 0.53, 10, 500, viewer);
 
     //view insert
