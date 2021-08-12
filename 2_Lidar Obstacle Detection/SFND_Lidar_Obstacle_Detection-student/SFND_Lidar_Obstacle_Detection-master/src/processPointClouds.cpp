@@ -240,7 +240,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
         for (int i = 0; i < cluster_indices.size(); i++)
         {
 
-            cloud_cluster->push_back((*cloud)[i]); //*
+            cloud_cluster->points.push_back((*cloud)[i]); //*
             //cloud_cluster->push_back((*cloud)[idx]);
         }
         cloud_cluster->width = cloud_cluster->size();
