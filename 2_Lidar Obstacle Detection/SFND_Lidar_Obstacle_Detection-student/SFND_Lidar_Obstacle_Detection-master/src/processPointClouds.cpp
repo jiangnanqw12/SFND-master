@@ -234,18 +234,33 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
         //euclideanClusterHelper_solution(i, points, cluster, flag_process, tree, clusterTolerance);
         cluster_indices.push_back(cluster);
     }
-    for (std::vector<std::vector<int>>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+    if ((cluster_indices.size() >= minSize) && (cluster_indices.size() <= maxSize))
     {
         typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
-        for (const auto &idx : it->indices)
-            cloud_cluster->push_back((*cloud)[idx]); //*
-        //cloud_cluster->push_back((*cloud)[idx]);
+        for (int i = 0; i < cluster_indices.size(); i++)
+        {
+
+            cloud_cluster->push_back((*cloud)[i]); //*
+            //cloud_cluster->push_back((*cloud)[idx]);
+        }
         cloud_cluster->width = cloud_cluster->size();
         cloud_cluster->height = 1;
         cloud_cluster->is_dense = true;
         clusters.push_back(cloud_cluster);
-        //std::cout << "PointCloud representing the Cluster: " << cloud_cluster->size() << " data points." << std::endl;
+        // for (std::vector<std::vector<int>>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+        // {
+        //     typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
+        //     for (const auto &idx : it->indices)
+        //         cloud_cluster->push_back((*cloud)[idx]); //*
+        //     //cloud_cluster->push_back((*cloud)[idx]);
+        //     cloud_cluster->width = cloud_cluster->size();
+        //     cloud_cluster->height = 1;
+        //     cloud_cluster->is_dense = true;
+        //     clusters.push_back(cloud_cluster);
+        //     //std::cout << "PointCloud representing the Cluster: " << cloud_cluster->size() << " data points." << std::endl;
+        // }
     }
+
 #if Clustertest
     printf("euclideanCluster<<()");
 #endif
