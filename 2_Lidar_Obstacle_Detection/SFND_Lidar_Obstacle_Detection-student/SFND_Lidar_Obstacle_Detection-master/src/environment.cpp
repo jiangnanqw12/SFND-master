@@ -324,9 +324,10 @@ int main(int argc, char **argv)
     initCamera(setAngle, viewer);
     //simpleHighway_student(viewer);
     ProcessPointClouds<pcl::PointXYZI> *pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
+    // std::vector<boost::filesystem::path> stream =
+    //     pointProcessorI->streamPcd("../../../SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/data_1");
     std::vector<boost::filesystem::path> stream =
-        pointProcessorI->streamPcd("../../../SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/data_1");
-
+        pointProcessorI->streamPcd("/home/shade/GitHub/SFND-master/2_Lidar_Obstacle_Detection/SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/data_1");
     //pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
     auto streamIterator = stream.begin();
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
