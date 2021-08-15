@@ -210,8 +210,7 @@ int main(int argc, char **argv) {
   //       pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
   std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd(
       "/home/shade/GitHub/SFND-master/2_Lidar_Obstacle_Detection/"
-      "SFND_Lidar_Obstacle_Detection-student/"
-      "SFND_Lidar_Obstacle_Detection-master/src/sensors/data/pcd/data_1");
+      "SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/data_1");
   auto streamIterator = stream.begin();
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
 
