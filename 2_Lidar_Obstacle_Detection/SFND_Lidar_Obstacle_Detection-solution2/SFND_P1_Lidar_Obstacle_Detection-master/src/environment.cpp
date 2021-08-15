@@ -101,8 +101,8 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr &viewer,
                                            Eigen::Vector4f(30, 7, 2, 1));
 
   //	std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr,
-  //pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud =
-  //pointProcessor.SegmentPlane(inputCloud, 100, 0.2);
+  // pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud =
+  // pointProcessor.SegmentPlane(inputCloud, 100, 0.2);
   std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr,
             pcl::PointCloud<pcl::PointXYZI>::Ptr>
       segmentCloud = pointProcessor->RansacPlane(inputCloud, 100, 0.2);
@@ -182,8 +182,11 @@ int main(int argc, char **argv) {
 
   ProcessPointClouds<pcl::PointXYZI> *pointProcessorI =
       new ProcessPointClouds<pcl::PointXYZI>();
-  std::vector<boost::filesystem::path> stream =
-      pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
+  // std::vector<boost::filesystem::path> stream =
+  //     pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
+  std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd(
+      "/home/shade/GitHub/SFND-master/2_Lidar_Obstacle_Detection/"
+      "SFND_Lidar_Obstacle_Detection/src/sensors/data/pcd/data_1");
   auto streamIterator = stream.begin();
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
 
