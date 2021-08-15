@@ -216,8 +216,8 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
     {
         std::cout << "cluster size ";
         pointProcessorI->numPoints(cloudcluster);
-        // renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
-        //                  colors[clusterId % colors.size()]);
+        renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
+                         colors[clusterId % colors.size()]);
         //Box box = pointProcessorI->BoundingBox(cloudcluster);
         //renderBox(viewer, box, clusterId);
         clusterId++;
