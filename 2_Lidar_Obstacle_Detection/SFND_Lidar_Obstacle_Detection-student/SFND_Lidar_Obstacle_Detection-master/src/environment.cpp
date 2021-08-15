@@ -190,14 +190,14 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
                                const pcl::PointCloud<pcl::PointXYZI>::Ptr &inputCloud)
 {
     pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud;
-    filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.3,
-                                               Eigen::Vector4f(-10, -5, -2, 1),
-                                               Eigen::Vector4f(30, 8, 1, 1));
+    filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.4,
+                                               Eigen::Vector4f(-10, -6.5, -2, 1),
+                                               Eigen::Vector4f(30, 6.5, 1, 1));
     //renderPointCloud(viewer, filterCloud, "filterCloud");
-    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->RansacPlane_student(filterCloud, 25, 0.3);
+    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->RansacPlane_student(filterCloud, 40, 0.3);
     //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
     //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering_euclideanCluster(segmentCloud.first, 0.53, 10, 500, viewer);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering_euclideanCluster(segmentCloud.first, 0.5, 10, 140, viewer);
 
     //view insert
     // int it = 0;
@@ -216,8 +216,8 @@ void cityBlock_project_student(pcl::visualization::PCLVisualizer::Ptr &viewer,
     {
         std::cout << "cluster size ";
         pointProcessorI->numPoints(cloudcluster);
-        renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
-                         colors[clusterId % colors.size()]);
+        // renderPointCloud(viewer, cloudcluster, "obstCloud" + std::to_string(clusterId),
+        //                  colors[clusterId % colors.size()]);
         //Box box = pointProcessorI->BoundingBox(cloudcluster);
         //renderBox(viewer, box, clusterId);
         clusterId++;
@@ -332,34 +332,35 @@ int main(int argc, char **argv)
     auto streamIterator = stream.begin();
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
 
-    viewer->removeAllPointClouds();
-    viewer->removeAllShapes();
+    // viewer->removeAllPointClouds();
+    // viewer->removeAllShapes();
 
-    // Load pcd and run obstacle detection process
-    inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
-    //cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
-    //cityBlock(viewer);
-    cityBlock_student(viewer, pointProcessorI, inputCloudI);
-    //cityBlock_solution(viewer, pointProcessorI, inputCloudI);
-    // Clear viewer
-    while (!viewer->wasStopped())
-    {
-
-        viewer->spinOnce();
-    }
+    // // Load pcd and run obstacle detection process
+    // inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+    // //cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
+    // //cityBlock(viewer);
+    // //cityBlock_student(viewer, pointProcessorI, inputCloudI);
+    // //cityBlock_solution(viewer, pointProcessorI, inputCloudI);
+    // // Clear viewer
     // while (!viewer->wasStopped())
     // {
-    //     // Clear viewer
-    //     viewer->removeAllPointClouds();
-    //     viewer->removeAllShapes();
 
-    //     // Load pcd and run obstacle detection process
-    //     inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
-    //     cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
-
-    //     streamIterator++;
-    //     if (streamIterator == stream.end())
-    //         streamIterator = stream.begin();
     //     viewer->spinOnce();
     // }
+
+    while (!viewer->wasStopped())
+    {
+        // Clear viewer
+        viewer->removeAllPointClouds();
+        viewer->removeAllShapes();
+
+        // Load pcd and run obstacle detection process
+        inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+        cityBlock_project_student(viewer, pointProcessorI, inputCloudI);
+        //cityBlock_student(viewer, pointProcessorI, inputCloudI);
+        streamIterator++;
+        if (streamIterator == stream.end())
+            streamIterator = stream.begin();
+        viewer->spinOnce();
+    }
 }
