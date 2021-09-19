@@ -4,7 +4,7 @@ L = 1500; % Length of signal
 t = (0:L - 1) * T; % Time vector
 
 % TODO: Form a signal containing a 77 Hz sinusoid of amplitude 0.7 and a 43Hz sinusoid of amplitude 2.
-S = 0.7 * sin(77 * 2 * pi t) + 2 * sin(43 * 2 * pi t);
+S = 0.7 * sin(77 * 2 * pi*t) + 2 * sin(43 * 2 * pi*t);
 
 % Corrupt the signal with noise
 X = S + 2 * randn(size(t));
