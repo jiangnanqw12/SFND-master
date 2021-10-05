@@ -4,12 +4,15 @@
 close all;
 
 % Data_points
+%First, we pick the number of samples on which we want to run the CFAR.
 Ns = 1000;
 
 % Generate random noise
+%Then, we generate the noise using the same number of samples and take
+%the absolute value of it.
 s = randn(Ns, 1);
 
-%Targets location. Assigning bin 100, 200, 300 and 700 as Targets with the amplitudes of 8, 9, 4, 11.
+%Targets location. Assigning bin 100, 200, 300 and 700 as mock Targets with the amplitudes of 8, 9, 4, 11.
 s([100, 200, 300, 700]) = [8 9 4 11];
 
 %plot the output
@@ -19,9 +22,12 @@ plot(s);
 
 % 1. Define the following:
 % 1a. Training Cells
+T = 12
 % 1b. Guard Cells
+G = 4
 
 % Offset : Adding room above noise threshold for desired SNR
+% since you are working with the linear values,you multiply the offset to the threshold
 offset = 3;
 
 % Vector to hold threshold values
@@ -31,6 +37,10 @@ threshold_cfar = [];
 signal_cfar = [];
 
 % 2. Slide window across the signal length
+% So we run the first training cells starting from the first pin,
+% and we keep stepping it through till the end of the vector.
+% But make sure that you give the room for last set of guard and training cells,
+% along with the cell in the test.
 for i = 1:(Ns - (G + T))
 
     % 2. - 5. Determine the noise threshold by measuring it within the training cells
