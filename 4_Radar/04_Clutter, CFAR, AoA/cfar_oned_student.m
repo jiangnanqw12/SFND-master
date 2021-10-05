@@ -10,7 +10,7 @@ Ns = 1000;
 % Generate random noise
 %Then, we generate the noise using the same number of samples and take
 %the absolute value of it.
-s = randn(Ns, 1);
+s = abs(randn(Ns, 1));
 
 %Targets location. Assigning bin 100, 200, 300 and 700 as mock Targets with the amplitudes of 8, 9, 4, 11.
 s([100, 200, 300, 700]) = [8 9 4 11];
@@ -28,7 +28,7 @@ G = 4
 
 % Offset : Adding room above noise threshold for desired SNR
 % since you are working with the linear values,you multiply the offset to the threshold
-offset = 3;
+offset = 5;
 
 % Vector to hold threshold values
 threshold_cfar = [];
@@ -49,7 +49,7 @@ for i = 1:(Ns - (G + T))
     threshold = (noise_level / T) * offset;
     threshold_cfar = [threshold_cfar, {threshold}];
     % 6. Measuring the signal within the CUT
-    signal = s[i + T + G];
+    signal = s([i + T + G]);
     % 8. Filter the signal above the threshold
     if (signal < threshold)
         signal = 0;
