@@ -1,19 +1,17 @@
-% TODO : Find the Bsweep of chirp for 1 m resolution
-c = 3 * 10 ^ 8;  % speed fo light in meter/sec
-delta_r = 1;     % range resolution in meters
-Bsweep = c / (2 * delta_r);
-disp(Bsweep);
+% 2-D Transform
+% The 2-D Fourier transform is useful for processing 2-D signals and other 2-D data such as images.
+% Create and plot 2-D data with repeated blocks.
 
+P = peaks(20);
+X = repmat(P,[5 10]);
+imagesc(X)
 
-% TODO : Calculate the chirp time based on the Radar's Max Range
-range_max = 300;
-Ts = 5.5 * (range_max * 2 /c);
-disp(Ts);
-
-
-% TODO : define the frequency shifts 
-beat_freq = [0 1.1e6 13e6 24e6];
-calculated_range = c * Ts * beat_freq/(2 * Bsweep);
-
-% Display the calculated range
-disp(calculated_range);
+% TODO : Compute the 2-D Fourier transform of the data.
+% Shift the zero-frequency component to the center of the output, and
+% plot the resulting 100-by-200 matrix, which is the same size as X.
+signal_fft = fft2(X, 100, 200);
+%imagesc(signal_fft);
+signal_fft = abs(signal_fft);
+imagesc(signal_fft);
+signal_fft = fftshift(signal_fft);
+imagesc(signal_fft);
