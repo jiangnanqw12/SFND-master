@@ -22,9 +22,9 @@ plot(s);
 
 % 1. Define the following:
 % 1a. Training Cells
-T = 12
+T = 12;
 % 1b. Guard Cells
-G = 4
+G = 4;
 
 % Offset : Adding room above noise threshold for desired SNR
 % since you are working with the linear values,you multiply the offset to the threshold
@@ -41,7 +41,7 @@ signal_cfar = [];
 % and we keep stepping it through till the end of the vector.
 % But make sure that you give the room for last set of guard and training cells,
 % along with the cell in the test.
-for i = 1:(Ns - (G + T))
+for i = 1:(Ns - (G + T + 1))
 
     % 2. - 5. Determine the noise threshold by measuring it within the training cells
     % compute noise of training cell
@@ -53,15 +53,16 @@ for i = 1:(Ns - (G + T))
     % 8. Filter the signal above the threshold
     if (signal < threshold)
         signal = 0;
-        end;
-        signal_cfar = [signal_cfar, {signal}];
-    end
+    end;
 
-    % plot the filtered signal
-    plot (cell2mat(signal_cfar), 'g--');
+    signal_cfar = [signal_cfar, {signal}];
+end
 
-    % plot original sig, threshold and filtered signal within the same figure.
-    figure, plot(s);
-    hold on, plot(cell2mat(circshift(threshold_cfar, G)), 'r--', 'LineWidth', 2)
-    hold on, plot (cell2mat(circshift(signal_cfar, (T + G))), 'g--', 'LineWidth', 4);
-    legend('Signal', 'CFAR Threshold', 'detection')
+% plot the filtered signal
+plot (cell2mat(signal_cfar), 'g--');
+
+% plot original sig, threshold and filtered signal within the same figure.
+figure, plot(s);
+hold on, plot(cell2mat(circshift(threshold_cfar, G)), 'r--', 'LineWidth', 2)
+hold on, plot (cell2mat(circshift(signal_cfar, (T + G))), 'g--', 'LineWidth', 4);
+legend('Signal', 'CFAR Threshold', 'detection')

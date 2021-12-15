@@ -33,7 +33,7 @@ threshold_cfar = [];
 signal_cfar = [];
 
 % 2. Slide window across the signal length
-for i = 1:(Ns - (G + T))
+for i = 1:(Ns - (G + T + 1))
 
     % 2. - 5. Determine the noise threshold by measuring it within the training cells
     % compute noise of training cell
@@ -46,18 +46,18 @@ for i = 1:(Ns - (G + T))
 
     if (signal < threshold)
         signal = 0;
-        end;
+    end;
 
-        % 8. Filter the signal above the threshold
+    % 8. Filter the signal above the threshold
 
-        signal_cfar = [signal_cfar, {signal}];
-    end
+    signal_cfar = [signal_cfar, {signal}];
+end
 
-    % plot the filtered signal
-    plot (cell2mat(signal_cfar), 'g--');
+% plot the filtered signal
+plot (cell2mat(signal_cfar), 'g--');
 
-    % plot original sig, threshold and filtered signal within the same figure.
-    figure, plot(s);
-    hold on, plot(cell2mat(circshift(threshold_cfar, G)), 'r--', 'LineWidth', 2)
-    hold on, plot (cell2mat(circshift(signal_cfar, (T + G))), 'g--', 'LineWidth', 4);
-    legend('Signal', 'CFAR Threshold', 'detection')
+% plot original sig, threshold and filtered signal within the same figure.
+figure, plot(s);
+hold on, plot(cell2mat(circshift(threshold_cfar, G)), 'r--', 'LineWidth', 2)
+hold on, plot (cell2mat(circshift(signal_cfar, (T + G))), 'g--', 'LineWidth', 4);
+legend('Signal', 'CFAR Threshold', 'detection')
