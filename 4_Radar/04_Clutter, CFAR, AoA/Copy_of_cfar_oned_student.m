@@ -2,12 +2,13 @@
 
 % Close and delete all currently open figures
 close all;
-
+clc;
+clear;
 % Data_points
 Ns = 1000;
 
 % Generate random noise
-s = randn(Ns, 1);
+s = abs(randn(Ns, 1));
 
 %Targets location. Assigning bin 100, 200, 300 and 700 as Targets with the amplitudes of 8, 9, 4, 11.
 s([100, 200, 300, 700]) = [8 9 4 11];
@@ -19,10 +20,11 @@ plot(s);
 
 % 1. Define the following:
 % 1a. Training Cells
+G=4;
 % 1b. Guard Cells
-
+T=12;
 % Offset : Adding room above noise threshold for desired SNR
-offset = 3;
+offset = 5;
 
 % Vector to hold threshold values
 threshold_cfar = [];
@@ -34,10 +36,15 @@ signal_cfar = [];
 for i = 1:(Ns - (G + T + 1))
 
     % 2. - 5. Determine the noise threshold by measuring it within the training cells
-
+    noise_level=sum(s(i:i+T-1));
+    noise_threshold=(noise_level/T)*offset;
+    threshold_cfar=[threshold_cfar,{noise_threshold}];
     % 6. Measuring the signal within the CUT
-
+    signal=s(i+T+G);
     % 8. Filter the signal above the threshold
+    if (signal<noise_threshold)
+        signal=0;
+    end
 
     signal_cfar = [signal_cfar, {signal}];
 end

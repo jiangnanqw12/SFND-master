@@ -1,6 +1,8 @@
 % Implement 1D CFAR using lagging cells on the given noise and target scenario.
 
 % Close and delete all currently open figures
+clc
+clear
 close all;
 
 % Data_points
