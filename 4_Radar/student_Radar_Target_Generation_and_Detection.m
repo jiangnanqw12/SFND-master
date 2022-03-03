@@ -35,6 +35,9 @@ wavelength = c / fc; %wavelength
 
 bandwidth = c / (2 * range_resolution); %d_res = c/2*Bsweep
 
+%fb/t=bandwidth/tchirp
+%t=2d/c
+
 %Range= c*Ts*fb / (2* Bsweep)
 %for max range, we assume fb = Bsweep/5.5
 %so Ts= 5.5*2* maxRange / c
