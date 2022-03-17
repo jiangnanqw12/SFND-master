@@ -106,18 +106,18 @@ Mix = reshape(Mix, [Nr, Nd]);
 %run the FFT on the beat signal along the range bins dimension (Nr) and
 %normalize.
 Y = fft(Mix, Nr, 1);
-
+Y2 = fft(Mix, Nr, 1);
 % *%TODO* :
 % Take the absolute value of FFT output
 P2 = abs(Y / Nr);
-
+P22 = abs(Y2 / Nr);
 % *%TODO* :
 % Output of FFT is double sided signal, but we are interested in only one side of the spectrum.
 % Hence we throw out half of the samples.
 P1 = P2(1:Nr / 2);
-
+P12 = P22(:,1:Nr/2+1);
 P1 = fftshift(P1); %important
-
+P12(:,2:end-1) = 2*P12(:,2:end-1);
 %plotting the range
 figure ('Name', 'Range from First FFT')
 subplot(2, 1, 1)
