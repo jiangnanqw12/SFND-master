@@ -1,3 +1,5 @@
+clc
+clear
 % Cosine Waves
 % Compare cosine waves in the time domain and the frequency domain.
 % Specify the parameters of a signal with a sampling frequency of 1kHz and a signal duration of 1 second.
@@ -32,6 +34,7 @@ Y = fft(X, n, dim);
 % Calculate the double-sided spectrum and single-sided spectrum of each signal.
 P2 = abs(Y / L);
 P1 = P2(:, 1:n / 2 + 1);
+Pt = P2(1:n / 2 + 1);
 P1(:, 2:end - 1) = 2 * P1(:, 2:end - 1);
 
 % In the frequency domain, plot the single-sided amplitude spectrum for each row in a single figure.

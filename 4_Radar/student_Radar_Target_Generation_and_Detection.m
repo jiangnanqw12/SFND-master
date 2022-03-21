@@ -106,7 +106,8 @@ Mix = reshape(Mix, [Nr, Nd]);
 %run the FFT on the beat signal along the range bins dimension (Nr) and
 %normalize.
 Y = fft(Mix, Nr, 1);
-YM = fft(Mix, Nr, 1);
+n = 2^nextpow2(Nr);
+YM = fft(Mix, n, 1);
 % *%TODO* :
 % Take the absolute value of FFT output
 P2 = abs(Y / Nr);
@@ -114,10 +115,12 @@ P2M = abs(YM / Nr);
 % *%TODO* :
 % Output of FFT is double sided signal, but we are interested in only one side of the spectrum.
 % Hence we throw out half of the samples.
-P1 = P2(1:Nr / 2);
-P1M = P2M(:, 1:Nr / 2 + 1);
+P1= P2(1:Nr / 2);
+P1T=P1;
+P1M= P2(1:Nr / 2,:);
+P1MT=P1M;
 P1 = fftshift(P1); %important
-P1M(:, 2:end - 1) = 2 * P1M(:, 2:end - 1);
+P1M( 1:end - 1,:) = 2 * P1M( 1:end - 1,:);
 %plotting the range
 figure ('Name', 'Range from First FFT')
 subplot(3, 1, 1)
@@ -130,7 +133,8 @@ plot(range, P1);
 axis ([0 200 0 1]);
 
 subplot(3, 1, 2)
-plot(range, P2M);
+plot(range, P1M(1:512,1));
+%axis ([0 200 0 1]);
 %% RANGE DOPPLER RESPONSE
 % The 2D FFT implementation is already provided here. This will run a 2DFFT
 % on the mixed signal (beat signal) output and generate a range doppler
