@@ -14,8 +14,8 @@ clc;
 % *%TODO* :
 % define the target's initial position and velocity. Note : Velocity
 % remains contant
-target_start_position = 60; %target range =100m
-target_velocity = -50; %target doppler velocity = -20m/s
+target_start_position = 110; %target range =100m
+target_velocity = -20; %target doppler velocity = -20m/s
 
 %% FMCW Waveform Generation
 % *%TODO* :
@@ -106,34 +106,45 @@ Mix = reshape(Mix, [Nr, Nd]);
 %run the FFT on the beat signal along the range bins dimension (Nr) and
 %normalize.
 Y = fft(Mix, Nr, 1);
-n = 2^nextpow2(Nr);
-YM = fft(Mix, n, 1);
+
 % *%TODO* :
 % Take the absolute value of FFT output
 P2 = abs(Y / Nr);
-P2M = abs(YM / Nr);
+
 % *%TODO* :
 % Output of FFT is double sided signal, but we are interested in only one side of the spectrum.
 % Hence we throw out half of the samples.
-P1= P2(1:Nr / 2);
-P1T=P1;
-P1M= P2(1:Nr / 2,:);
-P1MT=P1M;
-P1 = fftshift(P1); %important
-P1M( 1:end - 1,:) = 2 * P1M( 1:end - 1,:);
-%plotting the range
+P1 = P2(1:Nr / 2 + 1);
+P1T = P1;
 figure ('Name', 'Range from First FFT')
 subplot(3, 1, 1)
+plot(P1);
+axis ([0 200 0 1]);
+title("first")
+
+P1M = P2(1:Nr / 2 + 1, :);
+
+subplot(3, 1, 2)
+plot(P1M(:,1));
+axis ([0 200 0 1]);
+title("first")
+subplot(3, 1, 3)
+plot(P1M(:,2));
+axis ([0 200 0 1]);
+title("second")
+%P1 = fftshift(P1); %important
+%P1M(1:end - 1, :) = 2 * P1M(1:end - 1, :);
+%plotting the range
+
 
 % *%TODO* :
 % plot FFT output
-range = linspace(-200, 200, Nr / 2) * ((Nr / 2) / 400);
+%range = linspace(-200, 200, Nr / 2) * ((Nr / 2) / 400);
 
-plot(range, P1);
-axis ([0 200 0 1]);
 
-subplot(3, 1, 2)
-plot(range, P1M(1:512,1));
+%axis ([0 200 0 1]);
+
+
 %axis ([0 200 0 1]);
 %% RANGE DOPPLER RESPONSE
 % The 2D FFT implementation is already provided here. This will run a 2DFFT
