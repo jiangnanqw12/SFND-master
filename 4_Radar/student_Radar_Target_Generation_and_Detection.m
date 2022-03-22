@@ -169,7 +169,9 @@ figure, surf(doppler_axis, range_axis, RDM);
 
 % *%TODO* :
 %Select the number of Training Cells in both the dimensions.
+% number of training cells for range
 Tr = 10;
+% number of training cells for doppler
 Td = 8;
 
 % *%TODO* :
@@ -184,6 +186,18 @@ offset = 6;
 
 % *%TODO* :
 %Create a vector to store noise_level for each iteration on training cells
+%           Range
+%   |---|---|---|---|---|
+%   | T | T | T | T | T |
+% D |---|---|---|---|---|
+% o | T | G | G | G | T |
+% p |---|---|---|---|---|
+% p | T | G |CUT| G | T |
+% l |---|---|---|---|---|
+% e | T | G | G | G | T |
+% r |---|---|---|---|---|
+%   | T | T | T | T | T |
+%   |---|---|---|---|---|
 noise_level = zeros(1, 1);
 
 % *%TODO* :
