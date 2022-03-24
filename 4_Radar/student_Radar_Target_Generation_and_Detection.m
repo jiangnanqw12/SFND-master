@@ -125,25 +125,22 @@ title("first")
 P1M = P2(1:Nr / 2 + 1, :);
 
 subplot(3, 1, 2)
-plot(P1M(:,1));
+plot(P1M(:, 1));
 axis ([0 200 0 1]);
 title("first")
 subplot(3, 1, 3)
-plot(P1M(:,2));
+plot(P1M(:, 2));
 axis ([0 200 0 1]);
 title("second")
 %P1 = fftshift(P1); %important
 %P1M(1:end - 1, :) = 2 * P1M(1:end - 1, :);
 %plotting the range
 
-
 % *%TODO* :
 % plot FFT output
 %range = linspace(-200, 200, Nr / 2) * ((Nr / 2) / 400);
 
-
 %axis ([0 200 0 1]);
-
 
 %axis ([0 200 0 1]);
 %% RANGE DOPPLER RESPONSE
