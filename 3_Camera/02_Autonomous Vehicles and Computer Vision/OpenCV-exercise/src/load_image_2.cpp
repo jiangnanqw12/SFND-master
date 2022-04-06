@@ -1,9 +1,9 @@
 #include <iomanip>
 #include <iostream>
-#include <sstream>
-#include <string>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -15,6 +15,7 @@ void loadImage2()
         // create file name
         ostringstream imgNumber;                   // #include <sstream>
         imgNumber << setfill('0') << setw(4) << i; // #include <iomanip>
+        //std::cout<<imgNumber.str()<<std::endl;
         string filename = "../images/img" + imgNumber.str() + ".png";
 
         // load and display image
