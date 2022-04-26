@@ -6,6 +6,8 @@
 #include <opencv2/features2d.hpp>
 
 using namespace std;
+using namespace cv;
+
 
 void cornernessHarris()
 {
@@ -21,19 +23,35 @@ void cornernessHarris()
     double k = 0.04;       // Harris parameter (see equation for details)
 
     // Detect Harris corners and normalize output
-    cv::Mat dst, dst_norm, dst_norm_scaled;
+    cv::Mat dst, dst_norm, dst_norm_scaled, without_nms;
     dst = cv::Mat::zeros(img.size(), CV_32FC1);
     cv::cornerHarris(img, dst, blockSize, apertureSize, k, cv::BORDER_DEFAULT);
-    cv::normalize(dst, dst_norm, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat());
+    cv::normalize(dst, dst_norm, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat()); // CV_8SC1 CV_32FC1
     cv::convertScaleAbs(dst_norm, dst_norm_scaled);
+
+    without_nms = dst_norm.clone();
+
+    for( int i = 0; i < dst_norm.rows ; i++ )
+    {
+        for( int j = 0; j < dst_norm.cols; j++ )
+        {
+            if( (int) dst_norm.at<float>(i,j) > minResponse )
+            {
+                circle( without_nms, Point(j,i), 5,  Scalar(0), 2, 8, 0 );
+            }
+        }
+    }
 
     // visualize results
     string windowName = "Harris Corner Detector Response Matrix";
     cv::namedWindow(windowName, 4);
-    cv::imshow(windowName, dst_norm_scaled);
-    cv::waitKey(0);
+    cv::imshow(windowName, without_nms);
 
     // STUDENTS NEET TO ENTER THIS CODE (C3.2 Atom 4)
+    // TODO: Your task is to locate local maxima in the Harris response matrix 
+    // and perform a non-maximum suppression (NMS) in a local neighborhood around 
+    // each maximum. The resulting coordinates shall be stored in a list of keypoints 
+    // of the type `vector<cv::KeyPoint>`.
 
     // Look for prominent corners and instantiate keypoints
     vector<cv::KeyPoint> keypoints;
@@ -81,7 +99,7 @@ void cornernessHarris()
     cv::drawKeypoints(dst_norm_scaled, keypoints, visImage, cv::Scalar::all(-1), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
     cv::imshow(windowName, visImage);
     cv::waitKey(0);
-    // EOF STUDENT CODE
+
 }
 
 int main()
