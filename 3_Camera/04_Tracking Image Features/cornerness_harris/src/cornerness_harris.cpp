@@ -50,11 +50,11 @@ void cornernessHarris()
     // STUDENTS NEET TO ENTER THIS CODE (C3.2 Atom 4)
     // TODO: Your task is to locate local maxima in the Harris response matrix 
     // and perform a non-maximum suppression (NMS) in a local neighborhood around 
-    // each maximum. The resulting coordinates shall be stored in a list of keypoints 
+    // each maximum. The resulting coordinates shall be stored in a list of key_points
     // of the type `vector<cv::KeyPoint>`.
 
-    // Look for prominent corners and instantiate keypoints
-    vector<cv::KeyPoint> keypoints;
+    // Look for prominent corners and instantiate key_points
+    vector<cv::KeyPoint> key_points;
     double maxOverlap = 0.0; // max. permissible overlap between two features in %, used during non-maxima suppression
     for (size_t j = 0; j < dst_norm.rows; j++)
     {
@@ -71,7 +71,7 @@ void cornernessHarris()
 
                 // perform non-maximum suppression (NMS) in local neighbourhood around new key point
                 bool bOverlap = false;
-                for (auto it = keypoints.begin(); it != keypoints.end(); ++it)
+                for (auto it = key_points.begin(); it != key_points.end(); ++it)
                 {
                     double kptOverlap = cv::KeyPoint::overlap(newKeyPoint, *it);
                     if (kptOverlap > maxOverlap)
@@ -80,23 +80,23 @@ void cornernessHarris()
                         if (newKeyPoint.response > (*it).response)
                         {                      // if overlap is >t AND response is higher for new kpt
                             *it = newKeyPoint; // replace old key point with new one
-                            break;             // quit loop over keypoints
+                            break;             // quit loop over key_points
                         }
                     }
                 }
                 if (!bOverlap)
                 {                                     // only add new key point if no overlap has been found in previous NMS
-                    keypoints.push_back(newKeyPoint); // store new keypoint in dynamic list
+                    key_points.push_back(newKeyPoint); // store new keypoint in dynamic list
                 }
             }
         } // eof loop over cols
     }     // eof loop over rows
 
-    // visualize keypoints
+    // visualize key_points
     windowName = "Harris Corner Detection Results";
     cv::namedWindow(windowName, 5);
     cv::Mat visImage = dst_norm_scaled.clone();
-    cv::drawKeypoints(dst_norm_scaled, keypoints, visImage, cv::Scalar::all(-1), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+    cv::drawKeypoints(dst_norm_scaled, key_points, visImage, cv::Scalar::all(-1), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
     cv::imshow(windowName, visImage);
     cv::waitKey(0);
 
