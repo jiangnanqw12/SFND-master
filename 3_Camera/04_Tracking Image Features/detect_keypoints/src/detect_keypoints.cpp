@@ -11,7 +11,7 @@ void detKeypoints1()
 {
     // load image from file and convert to grayscale
     cv::Mat imgGray;
-    cv::Mat img = cv::imread("../images/img1.png");
+    cv::Mat img = cv::imread("../../cornerness_harris/images/img1.png");
     cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
 
     // Shi-Tomasi detector
@@ -45,11 +45,11 @@ void detKeypoints1()
     string windowName = "Shi-Tomasi Results";
     cv::namedWindow(windowName, 1);
     imshow(windowName, visImage);
-
+    cv::waitKey(0);
     // TODO: use the OpenCV library to add the FAST detector
-    // in addition to the already implemented Shi-Tomasi 
-    // detector and compare both algorithms with regard to 
-    // (a) number of keypoints, (b) distribution of 
+    // in addition to the already implemented Shi-Tomasi
+    // detector and compare both algorithms with regard to
+    // (a) number of keypoints, (b) distribution of
     // keypoints over the image and (c) processing speed.
 }
 
