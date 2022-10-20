@@ -13,7 +13,7 @@ void descKeypoints1()
 {
     // load image from file and convert to grayscale
     cv::Mat imgGray;
-    cv::Mat img = cv::imread("../images/img1.png");
+    cv::Mat img = cv::imread("../../images/img1.png");
     cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
 
     // BRISK detector / descriptor
@@ -40,9 +40,9 @@ void descKeypoints1()
     imshow(windowName, visImage);
     cv::waitKey(0);
 
-    // TODO: Add the SIFT detector / descriptor, compute the 
+    // TODO: Add the SIFT detector / descriptor, compute the
     // time for both steps and compare both BRISK and SIFT
-    // with regard to processing speed and the number and 
+    // with regard to processing speed and the number and
     // visual appearance of keypoints.
 
 }
