@@ -250,7 +250,7 @@ while ~isempty(leftToCheck)
     clusterMeas=[clusterDets.Measurement];%get cluster points value;
     %disp(clusterMeas);
     
-    %M = mean(A,dim)·µ»ØAÖĞÑØ×Å±êÁ¿dimÖ¸¶¨µÄÎ¬ÊıÉÏµÄÔªËØµÄÆ½¾ùÖµ¡£
+    %M = mean(A,dim)è¿”å›Aä¸­æ²¿ç€æ ‡é‡dimæŒ‡å®šçš„ç»´æ•°ä¸Šçš„å…ƒç´ çš„å¹³å‡å€¼ã€‚
     meas=mean(clusterMeas,2); % 2 refer to column
     %disp(meas);
     
