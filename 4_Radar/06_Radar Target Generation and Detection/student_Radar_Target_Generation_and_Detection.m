@@ -86,7 +86,7 @@ for i = 1:length(t)
     %received signal.
     Tx(i) = cos(2 * pi * (fc * t(i) + slope * t(i) * t(i) / 2));
     Rx(i) = cos(2 * pi * (fc * (t(i) - time_delay) + slope * (t(i) - time_delay) * (t(i) - time_delay) / 2));
-
+    %slope * t(i) * t(i) / 2 =integrate of fmcw
     % *%TODO* :
     %Now by mixing the Transmit and Receive generate the beat signal
     %This is done by element wise matrix multiplication of Transmit and
