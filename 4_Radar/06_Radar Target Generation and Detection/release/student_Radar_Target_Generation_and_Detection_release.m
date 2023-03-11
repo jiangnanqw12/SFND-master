@@ -1,4 +1,5 @@
-
+clear all
+clc;
 target_start_position = 110; %target range =100m
 target_velocity = -20; %target doppler velocity = -20m/s
 fc = 77e9; %carrier freq
