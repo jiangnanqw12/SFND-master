@@ -9,7 +9,7 @@ using namespace std;
 void magnitudeSobel() {
   // load image from file
   cv::Mat img;
-  img = cv::imread("../images/img1gray.png");
+  img = cv::imread("../../images/img1gray.png");
 
   // convert image to grayscale
   cv::Mat imgGray;

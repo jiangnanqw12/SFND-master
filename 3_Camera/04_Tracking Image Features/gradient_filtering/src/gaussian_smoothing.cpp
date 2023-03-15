@@ -9,7 +9,7 @@ using namespace std;
 void gaussianSmoothing1() {
   // load image from file
   cv::Mat img;
-  img = cv::imread("../images/img1gray.png");
+  img = cv::imread("../../images/img1gray.png");
 
   // create filter kernel
   float gauss_data[25] = {1,  4, 7, 4,  1,  4,  16, 26, 16, 4, 7, 26, 41,
